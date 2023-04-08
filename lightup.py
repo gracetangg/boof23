@@ -7,7 +7,6 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageDraw
-from utils import create_line
 
 LARGEFONT = ("Verdana", 35)
 
@@ -123,7 +122,7 @@ class GamePage(tk.Frame):
     
         self.button_pos = (350, 240)
         self.play_button = ttk.Button(self, text ="START",
-            command = lambda : self.start_game())
+            command = lambda : self.get_ready())
         self.play_button.place(x=self.button_pos[0], y=self.button_pos[1])
 
         self.start_time = 0
@@ -170,7 +169,7 @@ class GamePage(tk.Frame):
         self.canvas.itemconfig('watch', image=self.watch_img)
         self.canvas.create_text(text_center, text=f"{self.current_score}", 
                                              fill="Red", 
-                                             font=('Helvetica 15 bold', 30), 
+                                             font=('Trattatello', 50), 
                                              tag='points')
 
     def play_gif(self):
@@ -198,25 +197,25 @@ class GamePage(tk.Frame):
         # hide the button, show it again with place later
         self.play_button.place_forget()
 
-        self.canvas.create_text(text_center, text="3", fill="White", font=('Helvetica 15 bold', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="3", fill="White", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
 
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="2", fill="White", font=('Helvetica 15 bold', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="2", fill="White", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
 
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="1", fill="White", font=('Helvetica 15 bold', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="1", fill="White", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
         
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="GO", fill="White", font=('Helvetica 15 bold', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="GO!", fill="White", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
@@ -236,7 +235,6 @@ class GamePage(tk.Frame):
             self.current_score += 1
             self.update_score()
             self.update_clock()
-            # self.parent.update()
             time.sleep(0.01)
 
 # foruth window frame Leaderboard
@@ -252,6 +250,7 @@ class Leaderboard(tk.Frame):
         back_button.place(x=button_pos[0], y=button_pos[1])
   
   
-# Driver Code
-app = RosesGame()
-app.mainloop()
+if __name__ == "__main__":
+    # Driver Code
+    app = RosesGame()
+    app.mainloop()
