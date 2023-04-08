@@ -10,7 +10,7 @@ from PIL import Image, ImageTk, ImageDraw, ImageOps
 
 LARGEFONT = ("Verdana", 35)
 
-GAME_TIME = 2
+GAME_TIME = 1
 LEADERBOARD = [] 
 
 GIF_FRAMES = 52
@@ -299,13 +299,22 @@ class Leaderboard(tk.Frame):
                             (0, "p1"),
                             (0, "p1"),]
 
-        self.canvas = tk.Canvas(self, width=800, height=480)
+        self.canvas = tk.Canvas(self, width=800, height=480, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
 
         self.title_label = None
         self.score_header = None
         self.player_header = None
         self.leader_labels = []
+
+        self.keyboard_canvas = tk.Canvas(self, width=600, height=300)
+        self.keyboard_canvas.place_forget()
+        self.create_keyboard()
+
+        self.typing_label = None
+        self.typing_pos = (50, 50)
+        self.current_score = 0
+        self.current_name = ""
 
         self.back_button = ttk.Button(self, text ="BACK TO MENU",
                             command = lambda : self.leave_leaderboard())
@@ -321,7 +330,8 @@ class Leaderboard(tk.Frame):
         
 
     def show_score(self, score):
-        print(score)
+        self.current_name = ""
+        self.current_score = score
         if score > min(self.leaderboard)[0]: 
             self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50))
             self.title_label.place(x=150, y=200)
@@ -336,7 +346,92 @@ class Leaderboard(tk.Frame):
             self.back_button.place(x=200, y=300)
             self.view_button.place(x=400, y=300)
 
+    def press(self, key):
+        print(key)
+        if key == 'back':
+            self.current_name = self.current_name[:-1]
+        else: 
+            self.current_name = self.current_name + key
+        print(self.current_name)
 
+        self.typing_label.destroy()
+        self.typing_label = ttk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
+        self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
+
+    def f1(self):
+        print("f1")
+    def f2(self):
+        print("f2")
+
+    def create_keyboard(self):
+        ttk.Button(self.keyboard_canvas, text='Q', width=3, command=(lambda:self.press('Q'))).grid(row=0, column=1, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='W', width=3, command=(lambda:self.press('W'))).grid(row=0, column=2, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='E', width=3, command=(lambda:self.press('E'))).grid(row=0, column=3, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='R', width=3, command=(lambda:self.press('R'))).grid(row=0, column=4, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='T', width=3, command=(lambda:self.press('T'))).grid(row=0, column=5, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='Y', width=3, command=(lambda:self.press('Y'))).grid(row=0, column=6, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='U', width=3, command=(lambda:self.press('U'))).grid(row=0, column=7, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='I', width=3, command=(lambda:self.press('I'))).grid(row=0, column=8, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='O', width=3, command=(lambda:self.press('O'))).grid(row=0, column=9, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='P', width=3, command=(lambda:self.press('P'))).grid(row=0, column=10, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='A', width=3, command=(lambda:self.press('A'))).grid(row=1, column=1, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='S', width=3, command=(lambda:self.press('S'))).grid(row=1, column=2, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='D', width=3, command=(lambda:self.press('D'))).grid(row=1, column=3, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='F', width=3, command=(lambda:self.press('F'))).grid(row=1, column=4, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='G', width=3, command=(lambda:self.press('G'))).grid(row=1, column=5, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='H', width=3, command=(lambda:self.press('H'))).grid(row=1, column=6, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='J', width=3, command=(lambda:self.press('J'))).grid(row=1, column=7, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='K', width=3, command=(lambda:self.press('K'))).grid(row=1, column=8, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='L', width=3, command=(lambda:self.press('L'))).grid(row=1, column=9, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='back', width=3, command=(lambda:self.press('back'))).grid(row=1, column=10, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='Z', width=3, command=(lambda:self.press('Z'))).grid(row=2, column=2, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='X', width=3, command=(lambda:self.press('X'))).grid(row=2, column=3, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='C', width=3, command=(lambda:self.press('C'))).grid(row=2, column=4, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='V', width=3, command=(lambda:self.press('V'))).grid(row=2, column=5, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='B', width=3, command=(lambda:self.press('B'))).grid(row=2, column=6, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='N', width=3, command=(lambda:self.press('N'))).grid(row=2, column=7, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='M', width=3, command=(lambda:self.press('M'))).grid(row=2, column=8, ipadx=3, ipady=7)
+        ttk.Button(self.keyboard_canvas, text='enter', width=3, command=(lambda:self.update_leaderboard())).grid(row=2, column=9, ipadx=3, ipady=7)
+        # for r in range(len(keys)):
+        #     for c in range(len(keys[r])):
+        #         key = keys[r][c]
+        #         if key == '!':
+        #             print(button = ttk.Button(self.keyboard_canvas, text='back', width=3, 
+        #                                 command=(lambda:self.press('back'))))
+        #         elif key == '@':
+        #             print(r, c)
+        #             button = ttk.Button(self.keyboard_canvas, text='enter', width=3,
+        #                                 command=(lambda:self.update_leaderboard()))
+        #         else:
+        #             button = ttk.Button(self.keyboard_canvas, text=key, width=3, 
+        #                                 command=(lambda:self.press{key}))
+        #         c = c if r < 2 else c + 1
+        #         button.grid(row=r, column=c, ipadx=3, ipady=7)
+
+    def show_keyboard(self):
+        self.title_label.place_forget()
+        self.back_button.place_forget()
+        self.add_button.place_forget()
+        self.view_button.place_forget()
+
+        self.typing_label = ttk.Label(self.canvas, text="type your name", font=('Trattatello', 50))
+        self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
+
+        keyboard_pos = (25, 200)
+        self.keyboard_canvas.place(x=keyboard_pos[0], y=keyboard_pos[1])
+        self.parent.update()
+    
+    def hide_keyboard(self):
+        self.typing_label.place_forget()
+        self.keyboard_canvas.place_forget
+        self.parent.update()
+
+    def update_leaderboard(self):
+        self.leaderboard = self.leaderboard[:-1] + [(self.curent_score, self.current_name)]
+        self.leaderboard.sort()
+
+    def add_leaderboard(self):
+        self.show_keyboard()
 
     def view_leaderboard(self):
         self.title_label.destroy()
