@@ -6,7 +6,7 @@ import pyglet
 
 import tkinter as tk
 from tkinter import ttk
-from tkextrafont import Font
+# from tkextrafont import Font
 from PIL import Image, ImageTk
 
 LARGEFONT = ("Verdana", 35)
@@ -19,7 +19,7 @@ GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
 
-# pyglet.font.add_file('MiltonianTattoo-Regular.ttf')
+pyglet.font.add_file('MiltonianTattoo-Regular.ttf')
 # arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
