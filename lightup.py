@@ -6,8 +6,8 @@ import time
 
 import tkinter as tk
 from tkinter import ttk
-# from tkextrafont import Font
 from PIL import Image, ImageTk
+from utils import create_line
 
 LARGEFONT = ("Verdana", 35)
 
@@ -100,8 +100,8 @@ class Instructions(tk.Frame):
 class GamePage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.clock_position = (10, 10)
-        self.clock_size = 150
+        self.clock_position = (33, 75)
+        self.clock_size = 106 # 150
         self.point_position = (540, 10)
         self.point_size = (250, 150)
         self.parent = parent
@@ -111,16 +111,17 @@ class GamePage(tk.Frame):
         self.canvas.pack()
         self.canvas.pack(fill="both", expand=True)
 
+        self.watch_img = ImageTk.PhotoImage(Image.open("stop_watch.png"))
         self.gif = Image.open(r"paint_roses(low).gif")
         self.gif_frames = self.gif.n_frames
         self.gif_label = tk.Label(self.canvas)
-        self.animation = []
         self.img = self.canvas.create_image(0, 0, anchor=tk.NW, image=None)
+        
         self.load_gif()
 
         self.button_pos = (350, 240)
         self.play_button = ttk.Button(self, text ="START",
-            command = lambda : self.get_ready())
+            command = lambda : self.start_game())
         self.play_button.place(x=self.button_pos[0], y=self.button_pos[1])
 
         self.start_time = 0
@@ -152,10 +153,14 @@ class GamePage(tk.Frame):
         x = clock_center[0] + clock_radius * math.cos(angle)
         y = clock_center[1] + clock_radius * math.sin(angle)
 
-        self.canvas.create_oval(self.clock_position, 
-                                        (self.clock_position[0] + self.clock_size, self.clock_position[1] + self.clock_size), 
-                                        outline='white', width=2)    
-        self.canvas.create_line(clock_center, (x, y), fill="white", width=2)
+        # self.canvas.create_oval(self.clock_position, 
+        #                                 (self.clock_position[0] + self.clock_size, self.clock_position[1] + self.clock_size), 
+        #                                 outline='white', width=2)    
+        self.canvas.itemconfig('watch', image=self.watch_img)
+        # self.canvas.create_line(clock_center, (x, y), fill="#FF0000", width=2)
+
+        img = create_line(clock_center[0], clock_center[1], x, y, fill="#FF0000", width=2)
+        self.anvas.create_image(clock_center, image=ImageTk.PhotoImage(img), anchor='nw')
 
     def update_score(self):
         text_center = (650, 75)
@@ -173,6 +178,16 @@ class GamePage(tk.Frame):
             self.gif_index = (self.gif_index + 1) % GIF_FRAMES
             self.canvas.itemconfig(self.img, image=self.animation[self.gif_index])
             self.parent.update()
+
+    def setup_game(self):
+        self.start_time = time.time()
+        self.elapsed_time = 0
+        self.current_score = 0
+
+        self.play_gif()
+
+        self.canvas.create_image(10, 10, anchor=tk.NW, image=self.watch_img, tag='watch')
+        self.parent.update()
 
     def get_ready(self):
         """
@@ -210,22 +225,18 @@ class GamePage(tk.Frame):
         self.start_game()
 
     def start_game(self):
-        self.start_time = time.time()
-        self.elapsed_time = 0
-        self.current_score = 0
         # NOTE: at the beginning the serial prompt should be waiting for pi to 
         # output start
         # arduino.write(bytes('start', 'utf-8'))
+        self.setup_game()
 
-        while True: 
+        while True:
             self.play_gif()
-            self.current_score += 1
-            self.update_score()
+        #     self.current_score += 1
+        #     self.update_score()
             self.update_clock()
-            self.parent.update()
-            # time.sleep(0.005)
-
-        self.show_score()
+        #     self.parent.update()
+            time.sleep(0.005)
 
 # foruth window frame Leaderboard
 class Leaderboard(tk.Frame):
