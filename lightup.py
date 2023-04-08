@@ -1,7 +1,7 @@
 import os
 import math
 import time 
-import pyglet.font as font
+# import pyglet.font as font
 # import serial
 
 import tkinter as tk
@@ -19,7 +19,7 @@ GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
 
-font.add_file('MiltonianTattoo-Regular.ttf')
+# font.add_file('MiltonianTattoo-Regular.ttf')
 # arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
