@@ -178,9 +178,19 @@ def gameboard_pc(game_board, l1, l2):
                 game_board, bd=5, command=get_t, height=4, width=8)
             button[i][j].grid(row=m, column=n)
     game_board.mainloop()
+
+def menu(game_board)
+
+def withinstr(game_board):
+    game_board.destroy()
+    game_board = Tk()
+    game_board.title("PAINT THE ROSES RED")
+
+    l1 = Button(game_board, text='press me', width=10)
+    game_board.mainloop()
  
 # Initialize the game board to play with system
- 
+
  
 def withpc(game_board):
     game_board.destroy()
@@ -216,7 +226,8 @@ def withplayer(game_board):
 def play():
     menu = Tk()
     menu.geometry("800x480")
-    menu.title("Tic Tac Toe")
+    menu.title("PAINT THE ROSES RED")
+    instructions = partial(withinstr, menu)
     wpc = partial(withpc, menu)
     wpl = partial(withplayer, menu)
  
