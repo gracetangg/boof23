@@ -112,14 +112,15 @@ class GamePage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
 
         self.watch_img = ImageTk.PhotoImage(Image.open("stop_watch.png"))
-        self.gif = Image.open(r"paint_roses(low).gif")
+        self.score_img = ImageTk.PhotoImage(Image.open("score_card.png"))
+        self.img = self.canvas.create_image(0, 0, anchor=tk.NW, image=None)
+
+        self.gif = Image.open(r"paint_roses.gif")
         self.gif_frames = self.gif.n_frames
         self.gif_label = tk.Label(self.canvas)
         self.animation = []
-        self.img = self.canvas.create_image(0, 0, anchor=tk.NW, image=None)
-        
         self.load_gif()
-
+    
         self.button_pos = (350, 240)
         self.play_button = ttk.Button(self, text ="START",
             command = lambda : self.start_game())
@@ -150,7 +151,6 @@ class GamePage(tk.Frame):
         self.elapsed_time = time.time() - self.start_time
         time_left = (GAME_TIME - self.elapsed_time)
 
-        # angle = ((time_left * angle_per_second) + 3 * math.pi/2) % 2 * math.pi
         angle = ((time_left * angle_per_second) + 3 * math.pi/2)  * 180 / math.pi
         x = clock_center[0] + clock_radius * math.cos(angle)
         y = clock_center[1] + clock_radius * math.sin(angle)
@@ -165,10 +165,11 @@ class GamePage(tk.Frame):
         self.parent.update()
 
     def update_score(self):
-        text_center = (650, 75)
+        text_center = (700, 110)
         self.canvas.delete('points')
-        self.canvas.create_text(text_center, text=f"YOUR SCORE: {self.current_score}", 
-                                             fill="White", 
+        self.canvas.itemconfig('watch', image=self.watch_img)
+        self.canvas.create_text(text_center, text=f"{self.current_score}", 
+                                             fill="Red", 
                                              font=('Helvetica 15 bold', 30), 
                                              tag='points')
 
@@ -185,7 +186,8 @@ class GamePage(tk.Frame):
 
         self.play_gif()
 
-        self.canvas.create_image(10, 10, anchor=tk.NW, image=self.watch_img, tag='watch')
+        self.canvas.create_image(10, 10, anchor=tk.NW, image=self.watch_img, tag="watch")
+        self.canvas.create_image(625, 25, anchor=tk.NW, image=self.score_img, tag="score")
         self.parent.update()
 
     def get_ready(self):
@@ -231,8 +233,8 @@ class GamePage(tk.Frame):
 
         while True:
             self.play_gif()
-        #     self.current_score += 1
-        #     self.update_score()
+            self.current_score += 1
+            self.update_score()
             self.update_clock()
             # self.parent.update()
             time.sleep(0.01)
