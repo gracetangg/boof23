@@ -10,7 +10,7 @@ from PIL import Image, ImageTk, ImageDraw, ImageOps
 
 LARGEFONT = ("Verdana", 35)
 
-GAME_TIME = 1
+GAME_TIME = 10
 LEADERBOARD = [] 
 
 GIF_FRAMES = 52
@@ -47,8 +47,8 @@ class RosesGame(tk.Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-        # self.show_frame(MenuPage)
-        self.show_frame(GamePage)
+        self.show_frame(MenuPage)
+        # self.show_frame(GamePage)
   
     # to display the current frame passed as
     # parameter
@@ -60,9 +60,11 @@ class RosesGame(tk.Tk):
 class MenuPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.parent = parent
+        self.controller = controller
 
-        title_label = ttk.Label(self, text="Can You Paint the Roses Red?")
-        title_label.place(x=220, y=200)
+        title_label = ttk.Label(self, text="Can You Paint the Roses Red?", font=('Trattatello', 50))
+        title_label.place(x=150, y=200)
 
         # setting positions
         button_pos = (190, 300)
@@ -74,22 +76,27 @@ class MenuPage(tk.Frame):
   
         ## button to show frame 2 with text layout2
         play_button = ttk.Button(self, text ="PLAY",
-            command = lambda : controller.show_frame(GamePage))
+            command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+160), y=button_pos[1])
 
         ## button to show frame 2 with text layout2
         leaderboard_button = ttk.Button(self, text ="LEADERBOARD",
             command = lambda : controller.show_frame(Leaderboard))
         leaderboard_button.place(x=(button_pos[0]+300), y=button_pos[1])
+
+    def start_game(self):
+        self.controller.show_frame(GamePage)
+        gp = self.controller.frames[GamePage]
+        gp.get_ready()
   
 # second window frame Instructions
 class Instructions(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        title_label = ttk.Label(self, text="How to Paint the Roses Red?")
-        title_label.place(x=220, y=200)
+        title_label = ttk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50))
+        title_label.place(x=200, y=5)
 
-        button_pos = (350, 300)
+        button_pos = (350, 440)
 
         back_button = ttk.Button(self, text ="BACK",
                             command = lambda : controller.show_frame(MenuPage))
@@ -123,9 +130,6 @@ class GamePage(tk.Frame):
         self.load_gif()
     
         self.button_pos = (350, 240)
-        self.play_button = ttk.Button(self, text="START",
-                                            command=(lambda:self.to_leaderboard()))
-        self.play_button.place(x=self.button_pos[0], y=self.button_pos[1])
 
         self.continue_button = ttk.Button(self, text="CONTINUE", 
                                                 command=self.to_leaderboard)
@@ -200,8 +204,6 @@ class GamePage(tk.Frame):
         Countdown animation
         """
         text_center = (400, 240)
-        # hide the button, show it again with place later
-        self.play_button.place_forget()
         
         soldier_image = ImageTk.PhotoImage(Image.open("card_soldiers.png"))
         soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))
@@ -242,7 +244,6 @@ class GamePage(tk.Frame):
 
     def reset(self):
         self.canvas.delete("all")
-        self.play_button.place(x=self.button_pos[0], y=self.button_pos[1])
         self.continue_button.place_forget()
 
         self.start_time = 0
@@ -255,7 +256,8 @@ class GamePage(tk.Frame):
     def to_leaderboard(self):
         self.controller.show_frame(Leaderboard)
         leaderboard = self.controller.frames[Leaderboard]
-        leaderboard.show_score(200)
+        leaderboard.show_score(self.current_score)
+        # leaderboard.show_score(200)
         self.reset()
 
     def game_over(self):
@@ -311,7 +313,7 @@ class Leaderboard(tk.Frame):
         self.keyboard_canvas.place_forget()
         self.create_keyboard()
 
-        self.typing_label = None
+        self.typing_label = ttk.Label(self.canvas, text="type your name", font=('Trattatello', 50))
         self.typing_pos = (50, 50)
         self.current_score = 0
         self.current_name = ""
@@ -332,6 +334,8 @@ class Leaderboard(tk.Frame):
     def show_score(self, score):
         self.current_name = ""
         self.current_score = score
+        self.title_label.destroy()
+
         if score > min(self.leaderboard)[0]: 
             self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50))
             self.title_label.place(x=150, y=200)
@@ -387,12 +391,12 @@ class Leaderboard(tk.Frame):
         ttk.Button(self.keyboard_canvas, text='enter', width=3, command=(lambda:self.update_leaderboard())).grid(row=2, column=9, ipadx=3, ipady=7)
 
     def show_keyboard(self):
-        self.title_label.place_forget()
+        self.title_label.destroy()
         self.back_button.place_forget()
         self.add_button.place_forget()
         self.view_button.place_forget()
 
-        self.typing_label = ttk.Label(self.canvas, text="type your name", font=('Trattatello', 50))
+        self.typing_label['text'] = "type your name"
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
 
         keyboard_pos = (25, 200)
@@ -409,7 +413,8 @@ class Leaderboard(tk.Frame):
         self.leaderboard.sort(reverse=True)
 
         self.hide_keyboard()
-        self.title_label['text'] = "your score has been saved!"
+        self.title_label.destroy()
+        self.title_label = ttk.Label(self.canvas, text="your score has been saved!", font=('Trattatello', 50))
         self.title_label.place(x=175, y=200)
         self.back_button.place(x=200, y=300)
         self.view_button.place(x=400, y=300)
