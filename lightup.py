@@ -124,7 +124,7 @@ class GamePage(tk.Frame):
     
         self.button_pos = (350, 240)
         self.play_button = ttk.Button(self, text="START",
-                                            command=(lambda:self.get_ready()))
+                                            command=(lambda:self.to_leaderboard()))
         self.play_button.place(x=self.button_pos[0], y=self.button_pos[1])
 
         self.continue_button = ttk.Button(self, text="CONTINUE", 
@@ -302,10 +302,10 @@ class Leaderboard(tk.Frame):
         self.canvas = tk.Canvas(self, width=800, height=480, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
 
-        self.title_label = None
-        self.score_header = None
-        self.player_header = None
         self.leader_labels = []
+        self.score_header = ttk.Label(self.canvas, text=f"Score:", font=('Trattatello', 20))
+        self.player_header = ttk.Label(self.canvas, text=f"Player:", font=('Trattatello', 20))
+        self.title_label = ttk.Label(self.canvas, text="", font=('Trattatello', 50))
 
         self.keyboard_canvas = tk.Canvas(self, width=600, height=300)
         self.keyboard_canvas.place_forget()
@@ -347,21 +347,14 @@ class Leaderboard(tk.Frame):
             self.view_button.place(x=400, y=300)
 
     def press(self, key):
-        print(key)
         if key == 'back':
             self.current_name = self.current_name[:-1]
         else: 
             self.current_name = self.current_name + key
-        print(self.current_name)
 
-        self.typing_label.destroy()
-        self.typing_label = ttk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
+        self.typing_label['text'] = self.current_name
+        # self.typing_label = ttk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
-
-    def f1(self):
-        print("f1")
-    def f2(self):
-        print("f2")
 
     def create_keyboard(self):
         ttk.Button(self.keyboard_canvas, text='Q', width=3, command=(lambda:self.press('Q'))).grid(row=0, column=1, ipadx=3, ipady=7)
@@ -392,21 +385,6 @@ class Leaderboard(tk.Frame):
         ttk.Button(self.keyboard_canvas, text='N', width=3, command=(lambda:self.press('N'))).grid(row=2, column=7, ipadx=3, ipady=7)
         ttk.Button(self.keyboard_canvas, text='M', width=3, command=(lambda:self.press('M'))).grid(row=2, column=8, ipadx=3, ipady=7)
         ttk.Button(self.keyboard_canvas, text='enter', width=3, command=(lambda:self.update_leaderboard())).grid(row=2, column=9, ipadx=3, ipady=7)
-        # for r in range(len(keys)):
-        #     for c in range(len(keys[r])):
-        #         key = keys[r][c]
-        #         if key == '!':
-        #             print(button = ttk.Button(self.keyboard_canvas, text='back', width=3, 
-        #                                 command=(lambda:self.press('back'))))
-        #         elif key == '@':
-        #             print(r, c)
-        #             button = ttk.Button(self.keyboard_canvas, text='enter', width=3,
-        #                                 command=(lambda:self.update_leaderboard()))
-        #         else:
-        #             button = ttk.Button(self.keyboard_canvas, text=key, width=3, 
-        #                                 command=(lambda:self.press{key}))
-        #         c = c if r < 2 else c + 1
-        #         button.grid(row=r, column=c, ipadx=3, ipady=7)
 
     def show_keyboard(self):
         self.title_label.place_forget()
@@ -422,13 +400,19 @@ class Leaderboard(tk.Frame):
         self.parent.update()
     
     def hide_keyboard(self):
-        self.typing_label.place_forget()
-        self.keyboard_canvas.place_forget
+        if self.typing_label: self.typing_label.place_forget()
+        self.keyboard_canvas.place_forget()
         self.parent.update()
 
     def update_leaderboard(self):
-        self.leaderboard = self.leaderboard[:-1] + [(self.curent_score, self.current_name)]
-        self.leaderboard.sort()
+        self.leaderboard = self.leaderboard[:-1] + [(self.current_score, self.current_name)]
+        self.leaderboard.sort(reverse=True)
+
+        self.hide_keyboard()
+        self.title_label['text'] = "your score has been saved!"
+        self.title_label.place(x=175, y=200)
+        self.back_button.place(x=200, y=300)
+        self.view_button.place(x=400, y=300)
 
     def add_leaderboard(self):
         self.show_keyboard()
@@ -438,14 +422,13 @@ class Leaderboard(tk.Frame):
         self.back_button.place_forget()
         self.add_button.place_forget()
         self.view_button.place_forget()
+        self.hide_keyboard()
 
         self.back_button.place(x=300, y=400)
 
         score_pos = (200, 50)
         player_pos = (550, 50)
 
-        self.score_header = ttk.Label(self.canvas, text=f"Score:", font=('Trattatello', 20))
-        self.player_header = ttk.Label(self.canvas, text=f"Player:", font=('Trattatello', 20))
         self.score_header.place(x=score_pos[0], y=score_pos[1])
         self.player_header.place(x=player_pos[0], y=player_pos[1])
 
@@ -455,8 +438,8 @@ class Leaderboard(tk.Frame):
             player_lbl = ttk.Label(self.canvas, text=f"{leader}", font=('Trattatello', 20))
             self.leader_labels += [(score_lbl, player_lbl)]
 
-            score_lbl.place(x=score_pos[0], y=score_pos[1] + 50 * i)
-            player_lbl.place(x=player_pos[0], y=player_pos[1] + 50 * i)
+            score_lbl.place(x=score_pos[0], y=score_pos[1] + 50 * (i + 1))
+            player_lbl.place(x=player_pos[0], y=player_pos[1] + 50 * (i + 1))
         
     def leave_leaderboard(self):
         self.controller.show_frame(MenuPage)
@@ -464,10 +447,11 @@ class Leaderboard(tk.Frame):
         self.back_button.place_forget()
         self.add_button.place_forget()
         self.view_button.place_forget()
+        self.hide_keyboard()
 
         # forget leaderboard stuff if its there:
-        if self.score_header: self.score_header.destroy()
-        if self.player_header: self.player_header.destroy()
+        if self.score_header: self.score_header.place_forget()
+        if self.player_header: self.player_header.place_forget()
         for score, player in self.leader_labels:
             score.destroy()
             player.destroy()
