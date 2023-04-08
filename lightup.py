@@ -159,12 +159,12 @@ class GamePage(tk.Frame):
 
     def update_score(self):
         text_center = (650, 75)
-        font = Font(file="MiltonianTattoo-Regular.ttf")
+        # font = Font(file="MiltonianTattoo-Regular.ttf")
         self.canvas.delete('points')
         self.canvas.create_text(text_center, text=f"YOUR SCORE: {self.current_score}", 
                                              fill="White", 
-                                            #  font=('Helvetica 15 bold', 30), 
-                                             font=font,
+                                             font=('Helvetica 15 bold', 30), 
+                                            #  font=font,
                                              tag='points')
 
     def play_gif(self):
