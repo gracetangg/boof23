@@ -6,7 +6,7 @@ import time
 
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk, ImageDraw
+from PIL import Image, ImageTk, ImageDraw, ImageOps
 
 LARGEFONT = ("Verdana", 35)
 
@@ -107,7 +107,6 @@ class GamePage(tk.Frame):
 
         # create a canvas for background animation/image with parent window
         self.canvas = tk.Canvas(self, width=800, height=480)
-        self.canvas.pack()
         self.canvas.pack(fill="both", expand=True)
 
         self.watch_img = ImageTk.PhotoImage(Image.open("stop_watch.png"))
@@ -151,8 +150,6 @@ class GamePage(tk.Frame):
         time_left = (GAME_TIME - self.elapsed_time)
 
         angle = ((time_left * angle_per_second) + 3 * math.pi/2)  * 180 / math.pi
-        x = clock_center[0] + clock_radius * math.cos(angle)
-        y = clock_center[1] + clock_radius * math.sin(angle)
 
         overlay = Image.new('RGBA', (self.clock_size, self.clock_size), color=(0,0,0,0))
         draw = ImageDraw.Draw(overlay)
@@ -196,6 +193,14 @@ class GamePage(tk.Frame):
         text_center = (400, 240)
         # hide the button, show it again with place later
         self.play_button.place_forget()
+        
+        soldier_image = ImageTk.PhotoImage(Image.open("card_soldiers.png"))
+        soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))
+        
+
+        self.canvas.create_image(25, 200, anchor=tk.NW, image=soldier_image, tag="soldL")
+        self.canvas.create_image(775, 200, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
+        self.parent.update()
 
         self.canvas.create_text(text_center, text="3", fill="White", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
@@ -221,6 +226,8 @@ class GamePage(tk.Frame):
         time.sleep(1)
 
         self.canvas.delete("countdown")
+        self.canvas.delete("soldL")
+        self.canvas.delete("soldR")
         self.parent.update()
         self.start_game()
 
