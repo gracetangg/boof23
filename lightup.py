@@ -6,7 +6,7 @@ import time
 
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw
 from utils import create_line
 
 LARGEFONT = ("Verdana", 35)
@@ -115,6 +115,7 @@ class GamePage(tk.Frame):
         self.gif = Image.open(r"paint_roses(low).gif")
         self.gif_frames = self.gif.n_frames
         self.gif_label = tk.Label(self.canvas)
+        self.animation = []
         self.img = self.canvas.create_image(0, 0, anchor=tk.NW, image=None)
         
         self.load_gif()
@@ -147,29 +148,28 @@ class GamePage(tk.Frame):
                         self.clock_position[1] + self.clock_size / 2)
         
         self.elapsed_time = time.time() - self.start_time
-        time_left = GAME_TIME - self.elapsed_time
+        time_left = (GAME_TIME - self.elapsed_time)
 
-        angle = (time_left * angle_per_second) + 3 * math.pi/2
+        # angle = ((time_left * angle_per_second) + 3 * math.pi/2) % 2 * math.pi
+        angle = ((time_left * angle_per_second) + 3 * math.pi/2)  * 180 / math.pi
         x = clock_center[0] + clock_radius * math.cos(angle)
         y = clock_center[1] + clock_radius * math.sin(angle)
 
-        # self.canvas.create_oval(self.clock_position, 
-        #                                 (self.clock_position[0] + self.clock_size, self.clock_position[1] + self.clock_size), 
-        #                                 outline='white', width=2)    
-        self.canvas.itemconfig('watch', image=self.watch_img)
-        # self.canvas.create_line(clock_center, (x, y), fill="#FF0000", width=2)
+        overlay = Image.new('RGBA', (self.clock_size, self.clock_size), color=(0,0,0,0))
+        draw = ImageDraw.Draw(overlay)
+        draw.pieslice(((0, 0), (self.clock_size, self.clock_size)), start=angle, end=270, fill=(255, 0, 0, 200))
+        overlay = ImageTk.PhotoImage(overlay.copy())
 
-        img = create_line(clock_center[0], clock_center[1], x, y, fill="#FF0000", width=2)
-        self.anvas.create_image(clock_center, image=ImageTk.PhotoImage(img), anchor='nw')
+        self.canvas.itemconfig('watch', image=self.watch_img)
+        self.canvas.create_image(clock_center, anchor=tk.CENTER, image=overlay)
+        self.parent.update()
 
     def update_score(self):
         text_center = (650, 75)
-        # font = Font(file="MiltonianTattoo-Regular.ttf")
         self.canvas.delete('points')
         self.canvas.create_text(text_center, text=f"YOUR SCORE: {self.current_score}", 
                                              fill="White", 
                                              font=('Helvetica 15 bold', 30), 
-                                            #  font=font,
                                              tag='points')
 
     def play_gif(self):
@@ -177,7 +177,6 @@ class GamePage(tk.Frame):
             self.gif_time = time.time()
             self.gif_index = (self.gif_index + 1) % GIF_FRAMES
             self.canvas.itemconfig(self.img, image=self.animation[self.gif_index])
-            self.parent.update()
 
     def setup_game(self):
         self.start_time = time.time()
@@ -235,8 +234,8 @@ class GamePage(tk.Frame):
         #     self.current_score += 1
         #     self.update_score()
             self.update_clock()
-        #     self.parent.update()
-            time.sleep(0.005)
+            # self.parent.update()
+            time.sleep(0.01)
 
 # foruth window frame Leaderboard
 class Leaderboard(tk.Frame):
