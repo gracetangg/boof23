@@ -10,6 +10,7 @@ from PIL import Image, ImageTk, ImageDraw, ImageOps
 from rounded import RoundedButton
 
 LARGEFONT = ("Verdana", 35)
+BUTTONFONT = ('Quicksand Medium', 14, "bold")
 
 GAME_TIME = 1
 LEADERBOARD = [] 
@@ -74,13 +75,13 @@ class MenuPage(tk.Frame):
         button_pos = (75, 340)
 
         # putting the button in its place by
-        self.instructions_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.instructions_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=BUTTONFONT, fg="#9c171a",
             command=(lambda : controller.show_frame(Instructions)))
   
-        self.play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=BUTTONFONT, fg="#9c171a",
             command=self.start_game)
 
-        self.leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=BUTTONFONT, fg="#9c171a",
             command=self.show_leader)
 
         self.parent.update()
@@ -105,7 +106,7 @@ class Instructions(tk.Frame):
 
         button_pos = (350, 440)
 
-        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20),
+        back_button = tk.Button(self, text ="Back", font=('Trattatello', 20),
                             command = lambda : controller.show_frame(MenuPage))
         back_button.place(x=button_pos[0], y=button_pos[1])
 
@@ -140,7 +141,7 @@ class GamePage(tk.Frame):
     
         self.button_pos = (300, 390)
 
-        self.continue_button = RoundedButton(325, 240, self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
+        self.continue_button = RoundedButton(325, 240, self.canvas, text="Continue", font=BUTTONFONT,
                                                 command=self.to_leaderboard)
         self.canvas.delete("Continue")
 
@@ -284,7 +285,7 @@ class GamePage(tk.Frame):
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.finish_img, tag="finish_img")
         self.canvas.create_text((400, 75), text="GAME OVER", font=('Trattatello', 100), tag='countdown', fill="white")
         self.canvas.create_text((400, 350), text=f"Score: {self.current_score}", font=('Quicksand Medium', 30, "bold"), tag='countdown', fill="white")
-        self.continue_button = RoundedButton(self.button_pos[0], self.button_pos[1], self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
+        self.continue_button = RoundedButton(self.button_pos[0], self.button_pos[1], self.canvas, text="Continue", font=BUTTONFONT,
                                                 command=self.to_leaderboard)
         # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
         
@@ -348,21 +349,9 @@ class Leaderboard(tk.Frame):
         self.current_score = 0
         self.current_name = ""
 
-        # self.back_button = RoundedButton(self, text ="Back to Menu", font=('Trattatello', 20),
-        #                     command = lambda : self.leave_leaderboard())
-
-        # self.add_button = RoundedButton(self, text ="Add to Leaderboard", font=('Trattatello', 20),
-        #                     command = lambda : self.add_leaderboard())
-        # self.add_button.place_forget()
-
-        # self.view_button = RoundedButton(self, text ="See Leaderboard", font=('Trattatello', 20),
-        #                     command = lambda : self.view_leaderboard())
         self.back_button = None
         self.add_button = None
         self.view_button = None
-        
-        self.add_button.place_forget()
-        
 
     def show_score(self, score):
         self.current_name = ""
@@ -374,19 +363,21 @@ class Leaderboard(tk.Frame):
             self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="#9c171a")
             self.title_label.place(x=70, y=150)
             
-            self.back_button = RoundedButton(button_pos[0], button_pos[1], text ="Back to Menu", font=('Trattatello', 20),
+            self.back_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
-            self.add_button = RoundedButton(button_pos[1]+225, button_pos[1], text ="Add to Leaderboard", font=('Trattatello', 20),
+            self.add_button = RoundedButton(button_pos[0]+225, button_pos[1], self.canvas, text ="Add to Leaderboard", font=BUTTONFONT,
                                              command = lambda : self.add_leaderboard())
-            self.view_button = RoundedButton(button_pos[2]+450, button_pos[1], text ="See Leaderboard", font=('Trattatello', 20),
+            self.view_button = RoundedButton(button_pos[0]+450, button_pos[1], self.canvas, text ="View Leaderboard", font=BUTTONFONT,
                             command = lambda : self.view_leaderboard())
         
         else: 
             self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="#9c171a")
             self.title_label.place(x=175, y=150)
 
-            self.back_button.place(x=200, y=300)
-            self.view_button.place(x=400, y=300)
+            self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
+                                             command = lambda : self.leave_leaderboard())
+            self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
+                                             command = lambda : self.view_leaderboard())
 
     def press(self, key):
         if key == 'back':
@@ -395,7 +386,6 @@ class Leaderboard(tk.Frame):
             self.current_name = self.current_name + key
 
         self.typing_label['text'] = self.current_name
-        # self.typing_label = tk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
 
     def create_keyboard(self):
@@ -430,9 +420,9 @@ class Leaderboard(tk.Frame):
 
     def show_keyboard(self):
         self.title_label.destroy()
-        self.back_button.place_forget()
-        self.add_button.place_forget()
-        self.view_button.place_forget()
+        self.canvas.delete("BacktoMenu")
+        self.canvas.delete("AddtoLeaderboard")
+        self.canvas.delete("ViewLeaderboard")
 
         self.typing_label['text'] = "type your name"
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
@@ -459,21 +449,27 @@ class Leaderboard(tk.Frame):
         self.hide_keyboard()
         self.title_label.destroy()
         self.title_label = tk.Label(self.canvas, text="your score has been saved!", font=('Trattatello', 50), fg="#9c171a")
+
+        self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
+                                             command = lambda : self.leave_leaderboard())
+        self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
+                                             command = lambda : self.view_leaderboard())
+
         self.title_label.place(x=175, y=200)
-        self.back_button.place(x=200, y=300)
-        self.view_button.place(x=400, y=300)
 
     def add_leaderboard(self):
         self.show_keyboard()
 
     def view_leaderboard(self):
         self.title_label.destroy()
-        self.back_button.place_forget()
-        self.add_button.place_forget()
-        self.view_button.place_forget()
+        self.canvas.delete("BacktoMenu")
+        self.canvas.delete("AddtoLeaderboard")
+        self.canvas.delete("ViewLeaderboard")
         self.hide_keyboard()
 
-        self.back_button.place(x=300, y=400)
+        self.back_button = RoundedButton(300, 400, self.canvas, text ="Back to Menu", font=BUTTONFONT,
+                                             command=lambda:self.leave_leaderboard())
+        print(self.back_button)
 
         score_pos = (200, 50)
         player_pos = (550, 50)
@@ -493,9 +489,9 @@ class Leaderboard(tk.Frame):
     def leave_leaderboard(self):
         self.controller.show_frame(MenuPage)
         self.title_label.destroy()
-        self.back_button.place_forget()
-        self.add_button.place_forget()
-        self.view_button.place_forget()
+        self.canvas.delete("BacktoMenu")
+        self.canvas.delete("AddtoLeaderboard")
+        self.canvas.delete("ViewLeaderboard")
         self.hide_keyboard()
 
         # forget leaderboard stuff if its there:
@@ -507,9 +503,6 @@ class Leaderboard(tk.Frame):
 
         self.title_label = tk.Label(self.canvas, text="Can YOU Make it to TOP 5?", font=('Trattatello', 50), fg="#9c171a")
         self.title_label.place(x=160, y=200)
-
-        self.back_button.place(x=225, y=300)
-        self.view_button.place(x=410, y=300)
 
 
 if __name__ == "__main__":
