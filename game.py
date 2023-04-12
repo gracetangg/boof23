@@ -71,7 +71,7 @@ class MenuPage(tk.Frame):
         self.canvas.create_text((390, 265), text=f"ROSES", fill="white", font=('Trattatello', 90))
 
         # setting positions
-        button_pos = (50, 340)
+        button_pos = (75, 340)
 
         # putting the button in its place by
         instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Arial Black', 20), fg="#9c171a",
