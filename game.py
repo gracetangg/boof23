@@ -60,7 +60,7 @@ class MenuPage(tk.Frame):
         self.parent = parent
         self.controller = controller
 
-        title_label = ttk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50))
+        title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red")
         title_label.place(x=60, y=150)
 
         # setting positions
@@ -95,7 +95,7 @@ class MenuPage(tk.Frame):
 class Instructions(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        title_label = ttk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50))
+        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red")
         title_label.place(x=200, y=5)
 
         button_pos = (350, 440)
@@ -323,15 +323,15 @@ class Leaderboard(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
 
         self.leader_labels = []
-        self.score_header = ttk.Label(self.canvas, text=f"Score:", font=('Trattatello', 20))
-        self.player_header = ttk.Label(self.canvas, text=f"Player:", font=('Trattatello', 20))
-        self.title_label = ttk.Label(self.canvas, text="", font=('Trattatello', 50))
+        self.score_header = tk.Label(self.canvas, text=f"Score:", font=('Trattatello', 20), fg="red")
+        self.player_header = tk.Label(self.canvas, text=f"Player:", font=('Trattatello', 20), fg="red")
+        self.title_label = tk.Label(self.canvas, text="", font=('Trattatello', 50), fg="red")
 
         self.keyboard_canvas = tk.Canvas(self, width=600, height=300)
         self.keyboard_canvas.place_forget()
         self.create_keyboard()
 
-        self.typing_label = ttk.Label(self.canvas, text="type your name", font=('Trattatello', 50))
+        self.typing_label = tk.Label(self.canvas, text="type your name", font=('Trattatello', 50), fg="red")
         self.typing_pos = (50, 50)
         self.current_score = 0
         self.current_name = ""
@@ -355,14 +355,14 @@ class Leaderboard(tk.Frame):
         self.title_label.destroy()
 
         if score > min(self.leaderboard)[0]: 
-            self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="red")
+            self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="red")
             self.title_label.place(x=100, y=150)
 
             self.back_button.place(x=50, y=300)
             self.add_button.place(x=225, y=300)
             self.view_button.place(x=575, y=300)
         else: 
-            self.title_label = ttk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="red")
+            self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="red")
             self.title_label.place(x=175, y=150)
 
             self.back_button.place(x=200, y=300)
@@ -375,7 +375,7 @@ class Leaderboard(tk.Frame):
             self.current_name = self.current_name + key
 
         self.typing_label['text'] = self.current_name
-        # self.typing_label = ttk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
+        # self.typing_label = tk.Label(self.canvas, text=self.current_name, font=('Trattatello', 50))
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
 
     def create_keyboard(self):
@@ -438,7 +438,7 @@ class Leaderboard(tk.Frame):
 
         self.hide_keyboard()
         self.title_label.destroy()
-        self.title_label = ttk.Label(self.canvas, text="your score has been saved!", font=('Trattatello', 50))
+        self.title_label = tk.Label(self.canvas, text="your score has been saved!", font=('Trattatello', 50), fg="red")
         self.title_label.place(x=175, y=200)
         self.back_button.place(x=200, y=300)
         self.view_button.place(x=400, y=300)
@@ -463,8 +463,8 @@ class Leaderboard(tk.Frame):
 
         self.leader_labels = []
         for i, (score, leader) in enumerate(self.leaderboard): 
-            score_lbl = ttk.Label(self.canvas, text=f"{score}", font=('Trattatello', 20))
-            player_lbl = ttk.Label(self.canvas, text=f"{leader}", font=('Trattatello', 20))
+            score_lbl = tk.Label(self.canvas, text=f"{score}", font=('Trattatello', 20), fg="red")
+            player_lbl = tk.Label(self.canvas, text=f"{leader}", font=('Trattatello', 20), fg="red")
             self.leader_labels += [(score_lbl, player_lbl)]
 
             score_lbl.place(x=score_pos[0], y=score_pos[1] + 50 * (i + 1))
@@ -485,7 +485,7 @@ class Leaderboard(tk.Frame):
             score.destroy()
             player.destroy()
 
-        self.title_label = ttk.Label(self.canvas, text="Can YOU Make it to TOP 5?", font=('Trattatello', 50))
+        self.title_label = tk.Label(self.canvas, text="Can YOU Make it to TOP 5?", font=('Trattatello', 50), fg="red")
         self.title_label.place(x=160, y=200)
 
         self.back_button.place(x=225, y=300)
