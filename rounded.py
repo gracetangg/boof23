@@ -8,21 +8,20 @@ class RoundedButton():
 
         self.radius = radius        
         
-        temp = self.canvas.create_text(0, 0, text=text, tags="button", fill=fg, font=font, justify="center")
+        temp = self.canvas.create_text(0, 0, text=text, tags=text, fill=fg, font=font, justify="center")
         
         text_rect = self.canvas.bbox(temp)
         width = 200 # (text_rect[2]-text_rect[0]) + 15
         height = (text_rect[3]-text_rect[1]) + 20
 
         self.canvas.delete(temp)
-        self.rect = self.round_rectangle(x, y, x + width, y + height, tags="button", radius=radius, fill=bg)
-        self.text = self.canvas.create_text(x + width/2, y + height/2, text=text, tags="button", fill=fg, font=font, justify="center")
+        self.rect = self.round_rectangle(x, y, x + width, y + height, tags=text, radius=radius, fill=bg)
+        self.text = self.canvas.create_text(x + width/2, y + height/2, text=text, tags=text, fill=fg, font=font, justify="center")
 
-        self.canvas.tag_bind("button", "<ButtonPress>", self.border)
-        self.canvas.tag_bind("button", "<ButtonRelease>", self.border)
+        self.canvas.tag_bind(text, "<ButtonPress>", self.border)
+        self.canvas.tag_bind(text, "<ButtonRelease>", self.border)
           
-    def round_rectangle(self, x1, y1, x2, y2, radius=25, update=False, **kwargs): # if update is False a new rounded rectangle's id will be returned else updates existing rounded rect.
-        # source: https://stackoverflow.com/a/44100075/15993687
+    def round_rectangle(self, x1, y1, x2, y2, radius=25, update=False, **kwargs):
         points = [x1+radius, y1,
                 x1+radius, y1,
                 x2-radius, y1,
@@ -55,7 +54,6 @@ class RoundedButton():
             self.canvas.itemconfig(self.rect, fill="#d2d6d3")
             if self.command is not None:
                 self.command()
-
         else:
             self.canvas.itemconfig(self.rect, fill=self.bg)
 
