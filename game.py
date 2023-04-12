@@ -358,9 +358,9 @@ class Leaderboard(tk.Frame):
             self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="red")
             self.title_label.place(x=100, y=150)
 
-            self.back_button.place(x=50, y=300)
-            self.add_button.place(x=225, y=300)
-            self.view_button.place(x=575, y=300)
+            self.back_button.place(x=25, y=300)
+            self.add_button.place(x=235, y=300)
+            self.view_button.place(x=550, y=300)
         else: 
             self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="red")
             self.title_label.place(x=175, y=150)
