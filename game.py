@@ -1,8 +1,7 @@
 import os
 import math
 import time 
-# import pyglet.font as font
-# import serial
+import serial
 
 import tkinter as tk
 from tkinter import ttk
@@ -18,7 +17,6 @@ GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
 
-# font.add_file('MiltonianTattoo-Regular.ttf')
 # arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
@@ -48,7 +46,6 @@ class RosesGame(tk.Tk):
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
         self.show_frame(MenuPage)
-        # self.show_frame(GamePage)
   
     # to display the current frame passed as
     # parameter
@@ -63,7 +60,7 @@ class MenuPage(tk.Frame):
         self.parent = parent
         self.controller = controller
 
-        title_label = ttk.Label(self, text="Can You Paint the Roses Red?", font=('Trattatello', 50))
+        title_label = ttk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50))
         title_label.place(x=150, y=200)
 
         # setting positions
@@ -81,13 +78,18 @@ class MenuPage(tk.Frame):
 
         ## button to show frame 2 with text layout2
         leaderboard_button = ttk.Button(self, text ="LEADERBOARD",
-            command = lambda : controller.show_frame(Leaderboard))
+            command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+300), y=button_pos[1])
 
     def start_game(self):
         self.controller.show_frame(GamePage)
         gp = self.controller.frames[GamePage]
         gp.get_ready()
+
+    def show_leader(self):
+        self.controller.show_frame(Leaderboard)
+        leader = self.controller.frames[Leaderboard]
+        leader.view_leaderboard()
   
 # second window frame Instructions
 class Instructions(tk.Frame):
@@ -154,7 +156,6 @@ class GamePage(tk.Frame):
         update the clock every second
         """
         angle_per_second = 2 * math.pi / GAME_TIME
-        clock_radius = self.clock_size / 2
         clock_center = (self.clock_position[0] + self.clock_size / 2, 
                         self.clock_position[1] + self.clock_size / 2)
         
@@ -199,15 +200,24 @@ class GamePage(tk.Frame):
         self.play_gif()
         self.parent.update()
 
+    def listen(self):
+        """
+        Sends the go signal to the game and reads the score from the game
+        """
+
+
+
     def get_ready(self):
         """
         Countdown animation
         """
+        # send first 'y' to the arduino to prep for start: 
+        # arduino.write(bytes('y', 'utf-8'))
+
         text_center = (400, 240)
         
         soldier_image = ImageTk.PhotoImage(Image.open("card_soldiers.png"))
-        soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))
-        
+        soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))        
 
         self.canvas.create_image(25, 200, anchor=tk.NW, image=soldier_image, tag="soldL")
         self.canvas.create_image(775, 200, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
@@ -242,6 +252,9 @@ class GamePage(tk.Frame):
         self.parent.update()
         self.start_game()
 
+        # write 'y' second time to actually start game
+        # arduino.write(bytes('y', 'utf-8'))
+
     def reset(self):
         self.canvas.delete("all")
         self.continue_button.place_forget()
@@ -257,7 +270,6 @@ class GamePage(tk.Frame):
         self.controller.show_frame(Leaderboard)
         leaderboard = self.controller.frames[Leaderboard]
         leaderboard.show_score(self.current_score)
-        # leaderboard.show_score(200)
         self.reset()
 
     def game_over(self):
@@ -274,18 +286,30 @@ class GamePage(tk.Frame):
         self.parent.update()
 
     def start_game(self):
-        # NOTE: at the beginning the serial prompt should be waiting for pi to 
-        # output start
-        # arduino.write(bytes('start', 'utf-8'))
+        """
+        Actually runs the game for GAME_TIME:
+        """
+        SCORE_STRING = "new score: "
         self.setup_game()
-
         while self.elapsed_time <= GAME_TIME:
             self.play_gif()
-            self.current_score += 1
-            self.update_score()
-            self.update_clock()
-            time.sleep(0.01)
 
+            # serial read to find the score/game over
+            # data = arduino.readline().decode('utf-8').rstrip()
+            # if data == "":
+            #     continue
+            # # if there is a score update:
+            # if SCORE_STRING in data: 
+            #     new_score = int(data[len(SCORE_STRING):])
+            #     self.current_score += new_score
+            #     self.update_score()
+
+            # if data == 'game over!!!':
+            #     data = arduino.readline().decode('utf-8').rstrip()
+            #     score = int(data[20:])
+            #     assert(score == self.current_score)
+            self.current_score += 3
+            self.update_clock()
         self.game_over()
 
 # foruth window frame Leaderboard
@@ -295,11 +319,11 @@ class Leaderboard(tk.Frame):
         self.parent = parent
         self.controller = controller
 
-        self.leaderboard = [(0, "p1"),
-                            (0, "p1"),
-                            (0, "p1"),
-                            (0, "p1"),
-                            (0, "p1"),]
+        self.leaderboard = []
+        with open('leaderboard.txt', 'r') as f:
+            for i in range(5):
+                line = f.readline().strip().split(',')
+                self.leaderboard += [(int(line[0]), line[1])]
 
         self.canvas = tk.Canvas(self, width=800, height=480, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True)
@@ -408,9 +432,15 @@ class Leaderboard(tk.Frame):
         self.keyboard_canvas.place_forget()
         self.parent.update()
 
+    def save_leaderboard(self):
+        with open('leaderboard.txt', 'w') as f:
+            for score, player in self.leaderboard:
+                f.write(f"{score},{player}\n")
+
     def update_leaderboard(self):
         self.leaderboard = self.leaderboard[:-1] + [(self.current_score, self.current_name)]
-        self.leaderboard.sort(reverse=True)
+        self.leaderboard.sort(reverse=True, key=lambda x: x[0])
+        self.save_leaderboard()
 
         self.hide_keyboard()
         self.title_label.destroy()
