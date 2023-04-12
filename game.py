@@ -65,12 +65,12 @@ class MenuPage(tk.Frame):
         self.alice_flower = ImageTk.PhotoImage(Image.open("alice_flower.png"))
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.alice_flower, tag="flower")
 
-        self.canvas.create_text((390, 80), text=f"PAINT", fill="white", font=('Trattatello', 90))
-        self.canvas.create_text((400, 150), text=f"the", fill="white", font=('Trattatello', 40))
-        self.canvas.create_text((390, 225), text=f"ROSES", fill="white", font=('Trattatello', 90))
+        self.canvas.create_text((390, 100), text=f"PAINT", fill="white", font=('Trattatello', 90))
+        self.canvas.create_text((400, 170), text=f"the", fill="white", font=('Trattatello', 40))
+        self.canvas.create_text((390, 245), text=f"ROSES", fill="white", font=('Trattatello', 90))
 
         # setting positions
-        button_pos = (130, 300)
+        button_pos = (130, 320)
 
         # putting the button in its place by
         instruction_button = tk.Button(self.canvas, text="INSTRUCTIONS", font=('Trattatello', 20), fg="#9c171a",
