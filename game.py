@@ -74,7 +74,7 @@ class MenuPage(tk.Frame):
         button_pos = (75, 340)
 
         # putting the button in its place by
-        self.RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.instructions_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
             command=(lambda : controller.show_frame(Instructions)))
   
         self.play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
