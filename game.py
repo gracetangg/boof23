@@ -61,7 +61,7 @@ class MenuPage(tk.Frame):
 
         self.canvas = tk.Canvas(self, width=800, height=480)
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_image(0, 0 anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
 
         self.canvas.create_text((300, 50), text=f"PAINT", fill="white", font=('Trattatello', 50))
         self.canvas.create_text((375, 125), text=f"the", fill="white", font=('Trattatello', 25))
