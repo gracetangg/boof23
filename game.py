@@ -59,10 +59,18 @@ class MenuPage(tk.Frame):
         self.parent = parent
         self.controller = controller
 
-        title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
-                        tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
-        title_label[0].place(x=240, y=50)
-        title_label[1].place(x=175, y=150)
+        self.canvas = tk.Canvas(self, width=800, height=480)
+        self.canvas.pack(fill="both", expand=True)
+        self.canvas.create_image(0, 0 anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
+
+        self.canvas.create_text((300, 50), text=f"PAINT", fill="white", font=('Trattatello', 50))
+        self.canvas.create_text((375, 125), text=f"the", fill="white", font=('Trattatello', 25))
+        self.canvas.create_text((300, 250), text=f"PAINT", fill="white", font=('Trattatello', 50))
+
+        # title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
+        #                 tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
+        # title_label[0].place(x=240, y=50)
+        # title_label[1].place(x=175, y=150)
 
         # setting positions
         button_pos = (130, 300)
