@@ -348,16 +348,19 @@ class Leaderboard(tk.Frame):
         self.current_score = 0
         self.current_name = ""
 
-        self.back_button = tk.Button(self, text ="BACK TO MENU", font=('Trattatello', 20),
-                            command = lambda : self.leave_leaderboard())
-        self.back_button.place_forget()
+        # self.back_button = RoundedButton(self, text ="Back to Menu", font=('Trattatello', 20),
+        #                     command = lambda : self.leave_leaderboard())
 
-        self.add_button = tk.Button(self, text ="ADD TO LEADERBOARD", font=('Trattatello', 20),
-                            command = lambda : self.add_leaderboard())
-        self.add_button.place_forget()
+        # self.add_button = RoundedButton(self, text ="Add to Leaderboard", font=('Trattatello', 20),
+        #                     command = lambda : self.add_leaderboard())
+        # self.add_button.place_forget()
 
-        self.view_button = tk.Button(self, text ="SEE LEADERBOARD", font=('Trattatello', 20),
-                            command = lambda : self.view_leaderboard())
+        # self.view_button = RoundedButton(self, text ="See Leaderboard", font=('Trattatello', 20),
+        #                     command = lambda : self.view_leaderboard())
+        self.back_button = None
+        self.add_button = None
+        self.view_button = None
+        
         self.add_button.place_forget()
         
 
@@ -367,12 +370,17 @@ class Leaderboard(tk.Frame):
         self.title_label.destroy()
 
         if score > min(self.leaderboard)[0]: 
+            button_pos = (75, 300)
             self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="#9c171a")
             self.title_label.place(x=70, y=150)
-
-            self.back_button.place(x=25, y=300)
-            self.add_button.place(x=240, y=300)
-            self.view_button.place(x=540, y=300)
+            
+            self.back_button = RoundedButton(button_pos[0], button_pos[1], text ="Back to Menu", font=('Trattatello', 20),
+                                             command = lambda : self.leave_leaderboard())
+            self.add_button = RoundedButton(button_pos[1]+225, button_pos[1], text ="Add to Leaderboard", font=('Trattatello', 20),
+                                             command = lambda : self.add_leaderboard())
+            self.view_button = RoundedButton(button_pos[2]+450, button_pos[1], text ="See Leaderboard", font=('Trattatello', 20),
+                            command = lambda : self.view_leaderboard())
+        
         else: 
             self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="#9c171a")
             self.title_label.place(x=175, y=150)
