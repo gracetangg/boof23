@@ -65,8 +65,8 @@ class MenuPage(tk.Frame):
         self.alice_flower = ImageTk.PhotoImage(Image.open("alice_flower.png"))
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.alice_flower, tag="flower")
 
-        self.canvas.create_text((390, 100), text=f"PAINT", fill="white", font=('Trattatello', 90))
-        self.canvas.create_text((400, 160), text=f"the", fill="white", font=('Trattatello', 40))
+        self.canvas.create_text((390, 80), text=f"PAINT", fill="white", font=('Trattatello', 90))
+        self.canvas.create_text((400, 150), text=f"the", fill="white", font=('Trattatello', 40))
         self.canvas.create_text((390, 225), text=f"ROSES", fill="white", font=('Trattatello', 90))
 
         # setting positions
