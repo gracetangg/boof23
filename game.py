@@ -63,9 +63,9 @@ class MenuPage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_image(0, 0, anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
 
-        self.canvas.create_text((350, 125), text=f"PAINT", fill="white", font=('Trattatello', 50))
-        self.canvas.create_text((375, 175), text=f"the", fill="white", font=('Trattatello', 25))
-        self.canvas.create_text((350, 225), text=f"ROSES", fill="white", font=('Trattatello', 50))
+        self.canvas.create_text((375, 125), text=f"PAINT", fill="white", font=('Trattatello', 50))
+        self.canvas.create_text((385, 175), text=f"the", fill="white", font=('Trattatello', 25))
+        self.canvas.create_text((375, 225), text=f"ROSES", fill="white", font=('Trattatello', 50))
 
         # title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
         #                 tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
