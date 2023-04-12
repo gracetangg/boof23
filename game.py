@@ -60,8 +60,8 @@ class MenuPage(tk.Frame):
         self.parent = parent
         self.controller = controller
 
-        title_label = ttk.Label(self, text="Can You Paint the Roses RED?", font=('MiltonianTattoo-Regular', 50))
-        title_label.place(x=150, y=200)
+        title_label = ttk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50))
+        title_label.place(x=125, y=200)
 
         # setting positions
         button_pos = (190, 300)
