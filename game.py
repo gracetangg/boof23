@@ -7,6 +7,8 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk, ImageDraw, ImageOps
 
+from rounded import RoundedButton
+
 LARGEFONT = ("Verdana", 35)
 
 GAME_TIME = 1
@@ -72,17 +74,17 @@ class MenuPage(tk.Frame):
         button_pos = (130, 340)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self.canvas, text="Instructions", font=('Arial Black', 20), fg="#9c171a",
+        instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : controller.show_frame(Instructions))
-        instruction_button.place(x=button_pos[0], y=button_pos[1])
+        # instruction_button.place(x=button_pos[0], y=button_pos[1])
   
-        play_button = tk.Button(self.canvas, text ="Play", font=('Arial Black', 20), fg="#9c171a",
+        play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : self.start_game())
-        play_button.place(x=(button_pos[0]+225), y=button_pos[1])
+        # play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        leaderboard_button = tk.Button(self.canvas, text ="Leaderboard", font=('Arial Black', 20), fg="#9c171a",
+        leaderboard_button = RoundedButton((button_pos[0]+325), button_pos[1], self.canvas, text ="Leaderboard", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : self.show_leader())
-        leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
+        # leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
         self.parent.update()
 
@@ -502,5 +504,5 @@ class Leaderboard(tk.Frame):
 if __name__ == "__main__":
     # Driver Code
     app = RosesGame()
-    app.overrideredirect(1) #Remove border
+    # app.overrideredirect(1) #Remove border
     app.mainloop()
