@@ -282,8 +282,8 @@ class GamePage(tk.Frame):
 
         # self.canvas.itemconfig(self.img, image=self.finish_img)
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.finish_img, tag="finish_img")
-        self.canvas.create_text((400, 75), text="GAME OVER", font=('Trattatello', 100), tag='countdown')
-        self.canvas.create_text((400, 365), text=f"Score: {self.current_score}", font=('Quicksand Medium', 30, "bold"), tag='countdown')
+        self.canvas.create_text((400, 75), text="GAME OVER", font=('Trattatello', 100), tag='countdown', fill="white")
+        self.canvas.create_text((400, 365), text=f"Score: {self.current_score}", font=('Quicksand Medium', 30, "bold"), tag='countdown', fill="white")
         self.continue_button = RoundedButton(self.button_pos[0], self.button_pos[1], self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
                                                 command=self.to_leaderboard)
         # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
