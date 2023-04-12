@@ -27,7 +27,6 @@ class RosesGame(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("PAINT THE ROSES RED")
         self.geometry("800x480")
-        self.config(bg="#383434")
          
         # creating a container
         container = tk.Frame(self) 
@@ -59,26 +58,25 @@ class MenuPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
-        self.config(bg="#383434")
 
-        title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red", bg="#383434")
+        title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red")
         title_label.place(x=60, y=150)
 
         # setting positions
         button_pos = (125, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20), bg="#383434",
+        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20),
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
         ## button to show frame 2 with text layout2
-        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20), bg="#383434",
+        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20),
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
         ## button to show frame 2 with text layout2
-        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), bg="#383434",
+        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20),
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
@@ -96,14 +94,13 @@ class MenuPage(tk.Frame):
 class Instructions(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.config(bg="#383434")
 
-        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red", bg="#383434")
+        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red")
         title_label.place(x=200, y=5)
 
         button_pos = (350, 440)
 
-        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20), bg="#383434",
+        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20),
                             command = lambda : controller.show_frame(MenuPage))
         back_button.place(x=button_pos[0], y=button_pos[1])
 
@@ -114,7 +111,7 @@ class GamePage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
-        self.config(bg="#383434")
+        
 
         self.clock_position = (33, 75)
         self.clock_size = 106 # 150
@@ -316,7 +313,6 @@ class Leaderboard(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
-        self.config(bg="#383434")
 
         self.leaderboard = []
         with open('leaderboard.txt', 'r') as f:
