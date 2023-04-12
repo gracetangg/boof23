@@ -61,16 +61,14 @@ class MenuPage(tk.Frame):
 
         self.canvas = tk.Canvas(self, width=800, height=480)
         self.canvas.pack(fill="both", expand=True)
-        self.canvas.create_image(0, 0, anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
 
-        self.canvas.create_text((375, 125), text=f"PAINT", fill="white", font=('Trattatello', 50))
-        self.canvas.create_text((385, 175), text=f"the", fill="white", font=('Trattatello', 25))
-        self.canvas.create_text((375, 225), text=f"ROSES", fill="white", font=('Trattatello', 50))
+        self.alice_flower = ImageTk.PhotoImage(Image.open("alice_flower.png"))
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.alice_flower, tag="flower")
 
-        # title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
-        #                 tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
-        # title_label[0].place(x=240, y=50)
-        # title_label[1].place(x=175, y=150)
+        self.canvas.create_text((375, 115), text=f"PAINT", fill="white", font=('Trattatello', 90))
+        self.canvas.create_text((380, 170), text=f"the", fill="white", font=('Trattatello', 40))
+        self.canvas.create_text((375, 225), text=f"ROSES", fill="white", font=('Trattatello', 90))
+        self.parent.update()
 
         # setting positions
         button_pos = (130, 300)
@@ -80,12 +78,10 @@ class MenuPage(tk.Frame):
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
-        ## button to show frame 2 with text layout2
         play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        ## button to show frame 2 with text layout2
         leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
@@ -225,8 +221,8 @@ class GamePage(tk.Frame):
         soldier_image = ImageTk.PhotoImage(Image.open("card_soldiers.png"))
         soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))        
 
-        self.canvas.create_image(25, 200, anchor=tk.NW, image=soldier_image, tag="soldL")
-        self.canvas.create_image(775, 200, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
+        self.canvas.create_image(25, 150, anchor=tk.NW, image=soldier_image, tag="soldL")
+        self.canvas.create_image(775, 150, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
         self.parent.update()
 
         self.canvas.create_text(text_center, text="3", fill="#9c171a", font=('Trattatello', 200), tag='countdown')
