@@ -73,15 +73,15 @@ class MenuPage(tk.Frame):
         button_pos = (130, 340)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self.canvas, text="INSTRUCTIONS", font=('Trattatello', 20), fg="#9c171a",
+        instruction_button = tk.Button(self.canvas, text="Instructions", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
-        play_button = tk.Button(self.canvas, text ="PLAY", font=('Trattatello', 20), fg="#9c171a",
+        play_button = tk.Button(self.canvas, text ="Play", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        leaderboard_button = tk.Button(self.canvas, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
+        leaderboard_button = tk.Button(self.canvas, text ="Leaderboard", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
