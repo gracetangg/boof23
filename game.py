@@ -302,6 +302,7 @@ class GamePage(tk.Frame):
             #     score = int(data[20:])
             #     assert(score == self.current_score)
             self.current_score += 3
+            self.update_score()
             self.update_clock()
         self.game_over()
 
