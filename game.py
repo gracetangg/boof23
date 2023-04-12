@@ -17,6 +17,9 @@ GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
 
+import pyglet
+pyglet.font.add_file('MiltonianTattoo-Regular.ttf')
+
 # arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
@@ -199,13 +202,6 @@ class GamePage(tk.Frame):
 
         self.play_gif()
         self.parent.update()
-
-    def listen(self):
-        """
-        Sends the go signal to the game and reads the score from the game
-        """
-
-
 
     def get_ready(self):
         """
