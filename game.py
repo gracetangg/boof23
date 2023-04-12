@@ -71,7 +71,7 @@ class MenuPage(tk.Frame):
         self.canvas.create_text((390, 265), text=f"ROSES", fill="white", font=('Trattatello', 90))
 
         # setting positions
-        button_pos = (130, 340)
+        button_pos = (50, 340)
 
         # putting the button in its place by
         instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Arial Black', 20), fg="#9c171a",
@@ -82,7 +82,7 @@ class MenuPage(tk.Frame):
             command = lambda : self.start_game())
         # play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        leaderboard_button = RoundedButton((button_pos[0]+325), button_pos[1], self.canvas, text ="Leaderboard", font=('Arial Black', 20), fg="#9c171a",
+        leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Arial Black', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         # leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
