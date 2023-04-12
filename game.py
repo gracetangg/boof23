@@ -74,15 +74,15 @@ class MenuPage(tk.Frame):
         button_pos = (75, 340)
 
         # putting the button in its place by
-        instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 12, "bold"), fg="#9c171a",
+        instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 13.5, "bold"), fg="#9c171a",
             command = lambda : controller.show_frame(Instructions))
         # instruction_button.place(x=button_pos[0], y=button_pos[1])
   
-        play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 12, "bold"), fg="#9c171a",
+        play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 13.5, "bold"), fg="#9c171a",
             command = lambda : self.start_game())
         # play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 12, "bold"), fg="#9c171a",
+        leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 13.5, "bold"), fg="#9c171a",
             command = lambda : self.show_leader())
         # leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
