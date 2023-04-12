@@ -100,7 +100,7 @@ class Instructions(tk.Frame):
 
         button_pos = (350, 440)
 
-        back_button = ttk.Button(self, text ="BACK", font=('Trattatello', 20),
+        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20),
                             command = lambda : controller.show_frame(MenuPage))
         back_button.place(x=button_pos[0], y=button_pos[1])
 
@@ -133,7 +133,7 @@ class GamePage(tk.Frame):
     
         self.button_pos = (350, 240)
 
-        self.continue_button = ttk.Button(self, text="CONTINUE", font=('Trattatello', 20),
+        self.continue_button = tk.Button(self, text="CONTINUE", font=('Trattatello', 20),
                                                 command=self.to_leaderboard)
         self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1])
         self.continue_button.place_forget()
@@ -336,15 +336,15 @@ class Leaderboard(tk.Frame):
         self.current_score = 0
         self.current_name = ""
 
-        self.back_button = ttk.Button(self, text ="BACK TO MENU", font=('Trattatello', 20),
+        self.back_button = tk.Button(self, text ="BACK TO MENU", font=('Trattatello', 20),
                             command = lambda : self.leave_leaderboard())
         self.back_button.place_forget()
 
-        self.add_button = ttk.Button(self, text ="ADD TO LEADERBOARD", font=('Trattatello', 20),
+        self.add_button = tk.Button(self, text ="ADD TO LEADERBOARD", font=('Trattatello', 20),
                             command = lambda : self.add_leaderboard())
         self.add_button.place_forget()
 
-        self.view_button = ttk.Button(self, text ="SEE LEADERBOARD", font=('Trattatello', 20),
+        self.view_button = tk.Button(self, text ="SEE LEADERBOARD", font=('Trattatello', 20),
                             command = lambda : self.view_leaderboard())
         self.add_button.place_forget()
         
