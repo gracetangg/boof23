@@ -140,12 +140,9 @@ class GamePage(tk.Frame):
     
         self.button_pos = (325, 240)
 
-        self.continue_button = RoundedButton(325, 240, self, text="Continue", font=('Quicksand Medium', 14, "bold"),
+        self.continue_button = RoundedButton(325, 240, self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
                                                 command=self.to_leaderboard)
-        self.canvas.delete(self.continue_button)
-
-        # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1])
-        # self.continue_button.place_forget()
+        self.canvas.delete("Continue")
 
         self.start_time = 0
         self.elapsed_time = 0       # amount of time left in seconds
@@ -219,7 +216,9 @@ class GamePage(tk.Frame):
         text_center = (400, 240)
         
         soldier_image = ImageTk.PhotoImage(Image.open("card_soldiers.png"))
-        soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))        
+        soldier_image_flipped = ImageTk.PhotoImage(ImageOps.mirror(Image.open("card_soldiers.png")))    
+
+        self.canvas.delete(self.continue_button)    
 
         self.canvas.create_image(25, 150, anchor=tk.NW, image=soldier_image, tag="soldL")
         self.canvas.create_image(775, 150, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
@@ -259,7 +258,8 @@ class GamePage(tk.Frame):
 
     def reset(self):
         self.canvas.delete("all")
-        self.continue_button.place_forget()
+        self.canvas.delete(self.continue_button)    
+        # self.continue_button.place_forget()
 
         self.start_time = 0
         self.elapsed_time = 0       
@@ -280,11 +280,10 @@ class GamePage(tk.Frame):
         self.canvas.delete("points")
         self.canvas.delete(self.img)
 
-        self.canvas.itemconfig(self.img, image=self.final_img)
+        self.canvas.itemconfig(self.img, image=self.finish_img)
         self.canvas.create_text((400, 200), text="GAME OVER", font=('Trattatello', 100), tag='countdown')
         self.canvas.create_text((400, 300), text=f"your score: {self.current_score}", font=('Trattatello', 50), tag='countdown')
-
-        self.continue_button = RoundedButton(325, 240, self, text="Continue", font=('Quicksand Medium', 14, "bold"),
+        self.continue_button = RoundedButton(325, 240, self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
                                                 command=self.to_leaderboard)
         # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
         
