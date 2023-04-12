@@ -63,9 +63,9 @@ class MenuPage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_image(0, 0, anchor=tk.NW, image=ImageTk.PhotoImage(Image.open("alice_flower.png")))
 
-        self.canvas.create_text((300, 50), text=f"PAINT", fill="white", font=('Trattatello', 50))
-        self.canvas.create_text((375, 125), text=f"the", fill="white", font=('Trattatello', 25))
-        self.canvas.create_text((300, 250), text=f"PAINT", fill="white", font=('Trattatello', 50))
+        self.canvas.create_text((350, 125), text=f"PAINT", fill="white", font=('Trattatello', 50))
+        self.canvas.create_text((375, 175), text=f"the", fill="white", font=('Trattatello', 25))
+        self.canvas.create_text((350, 225), text=f"ROSES", fill="white", font=('Trattatello', 50))
 
         # title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
         #                 tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
@@ -89,6 +89,8 @@ class MenuPage(tk.Frame):
         leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
+
+        self.parent.update()
 
     def start_game(self):
         self.controller.show_frame(GamePage)
