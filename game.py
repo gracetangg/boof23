@@ -65,24 +65,23 @@ class MenuPage(tk.Frame):
         self.alice_flower = ImageTk.PhotoImage(Image.open("alice_flower.png"))
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.alice_flower, tag="flower")
 
-        self.canvas.create_text((375, 115), text=f"PAINT", fill="white", font=('Trattatello', 90))
-        self.canvas.create_text((380, 170), text=f"the", fill="white", font=('Trattatello', 40))
-        self.canvas.create_text((375, 225), text=f"ROSES", fill="white", font=('Trattatello', 90))
-        self.parent.update()
+        self.canvas.create_text((390, 100), text=f"PAINT", fill="white", font=('Trattatello', 90))
+        self.canvas.create_text((400, 160), text=f"the", fill="white", font=('Trattatello', 40))
+        self.canvas.create_text((390, 225), text=f"ROSES", fill="white", font=('Trattatello', 90))
 
         # setting positions
         button_pos = (130, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20), fg="#9c171a",
+        instruction_button = tk.Button(self.canvas, text="INSTRUCTIONS", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
-        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20), fg="#9c171a",
+        play_button = tk.Button(self.canvas, text ="PLAY", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
-        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
+        leaderboard_button = tk.Button(self.canvas, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
