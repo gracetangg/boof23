@@ -61,23 +61,23 @@ class MenuPage(tk.Frame):
         self.controller = controller
 
         title_label = ttk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50))
-        title_label.place(x=75, y=150)
+        title_label.place(x=60, y=150)
 
         # setting positions
         button_pos = (150, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 15),
+        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20),
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
         ## button to show frame 2 with text layout2
-        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 15),
+        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20),
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+200), y=button_pos[1])
 
         ## button to show frame 2 with text layout2
-        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 15),
+        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20),
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+300), y=button_pos[1])
 
