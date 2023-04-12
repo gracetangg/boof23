@@ -68,17 +68,17 @@ class MenuPage(tk.Frame):
         button_pos = (130, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20),
+        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
         ## button to show frame 2 with text layout2
-        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20),
+        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
         ## button to show frame 2 with text layout2
-        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20),
+        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), fg="#9c171a",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
