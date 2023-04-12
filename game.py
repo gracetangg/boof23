@@ -26,7 +26,6 @@ class RosesGame(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("PAINT THE ROSES RED")
         self.geometry("800x480")
-        self.iconify()
          
         # creating a container
         container = tk.Frame(self) 
@@ -504,6 +503,4 @@ if __name__ == "__main__":
     # Driver Code
     app = RosesGame()
     app.overrideredirect(1) #Remove border
-    # close = tk.Button(window, text = "Close Window", command = lambda: root.destroy())
-    # close.pack(fill = tk.BOTH, expand = 1)
     app.mainloop()
