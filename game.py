@@ -61,11 +61,11 @@ class MenuPage(tk.Frame):
 
         title_label = (tk.Label(self, text="Can You Paint", font=('Trattatello', 50), fg="#9c171a"),
                         tk.Label(self, text="THE ROSES RED?", font=('Trattatello', 50), fg="#9c171a"))
-        title_label[0].place(x=250, y=50)
+        title_label[0].place(x=240, y=50)
         title_label[1].place(x=175, y=150)
 
         # setting positions
-        button_pos = (125, 300)
+        button_pos = (130, 300)
 
         # putting the button in its place by
         instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20),
