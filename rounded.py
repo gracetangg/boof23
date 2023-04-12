@@ -12,7 +12,7 @@ class RoundedButton():
         
         text_rect = self.canvas.bbox(temp)
         width = 200 # (text_rect[2]-text_rect[0]) + 15
-        height = (text_rect[3]-text_rect[1]) + 15
+        height = (text_rect[3]-text_rect[1]) + 20
 
         self.canvas.delete(temp)
         self.rect = self.round_rectangle(x, y, x + width, y + height, tags="button", radius=radius, fill=bg)
