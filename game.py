@@ -61,24 +61,24 @@ class MenuPage(tk.Frame):
         self.controller = controller
         self.config(bg="#383434")
 
-        title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red")
+        title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red", bg="#383434")
         title_label.place(x=60, y=150)
 
         # setting positions
         button_pos = (125, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20),
+        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 20), bg="#383434",
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
         ## button to show frame 2 with text layout2
-        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20),
+        play_button = tk.Button(self, text ="PLAY", font=('Trattatello', 20), bg="#383434",
             command = lambda : self.start_game())
         play_button.place(x=(button_pos[0]+225), y=button_pos[1])
 
         ## button to show frame 2 with text layout2
-        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20),
+        leaderboard_button = tk.Button(self, text ="LEADERBOARD", font=('Trattatello', 20), bg="#383434",
             command = lambda : self.show_leader())
         leaderboard_button.place(x=(button_pos[0]+325), y=button_pos[1])
 
@@ -96,13 +96,14 @@ class MenuPage(tk.Frame):
 class Instructions(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red")
-        title_label.place(x=200, y=5)
         self.config(bg="#383434")
+
+        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red", bg="#383434")
+        title_label.place(x=200, y=5)
 
         button_pos = (350, 440)
 
-        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20),
+        back_button = tk.Button(self, text ="BACK", font=('Trattatello', 20), bg="#383434",
                             command = lambda : controller.show_frame(MenuPage))
         back_button.place(x=button_pos[0], y=button_pos[1])
 
@@ -360,11 +361,11 @@ class Leaderboard(tk.Frame):
 
         if score > min(self.leaderboard)[0]: 
             self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="red")
-            self.title_label.place(x=100, y=150)
+            self.title_label.place(x=70, y=150)
 
             self.back_button.place(x=25, y=300)
             self.add_button.place(x=235, y=300)
-            self.view_button.place(x=550, y=300)
+            self.view_button.place(x=540, y=300)
         else: 
             self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="red")
             self.title_label.place(x=175, y=150)
