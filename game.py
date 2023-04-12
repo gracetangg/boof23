@@ -74,13 +74,13 @@ class MenuPage(tk.Frame):
         button_pos = (75, 340)
 
         # putting the button in its place by
-        instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
             command=(lambda : controller.show_frame(Instructions)))
   
-        play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
             command=self.start_game)
 
-        leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+        self.leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
             command=self.show_leader)
 
         self.parent.update()
@@ -130,6 +130,7 @@ class GamePage(tk.Frame):
         self.img = None
         self.watch_img = ImageTk.PhotoImage(Image.open("stop_watch.png"))
         self.score_img = ImageTk.PhotoImage(Image.open("score_card.png"))
+        self.finish_img = ImageTk.PhotoImage(Image.open("sad_card.jpeg"))
 
         self.gif = Image.open(r"paint_roses.gif")
         self.gif_frames = self.gif.n_frames
@@ -139,10 +140,12 @@ class GamePage(tk.Frame):
     
         self.button_pos = (325, 240)
 
-        self.continue_button = tk.Button(self, text="CONTINUE", font=('Trattatello', 20),
+        self.continue_button = RoundedButton(325, 240, self, text="Continue", font=('Quicksand Medium', 14, "bold"),
                                                 command=self.to_leaderboard)
-        self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1])
-        self.continue_button.place_forget()
+        self.canvas.delete(self.continue_button)
+
+        # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1])
+        # self.continue_button.place_forget()
 
         self.start_time = 0
         self.elapsed_time = 0       # amount of time left in seconds
@@ -277,10 +280,13 @@ class GamePage(tk.Frame):
         self.canvas.delete("points")
         self.canvas.delete(self.img)
 
+        self.canvas.itemconfig(self.img, image=self.final_img)
         self.canvas.create_text((400, 200), text="GAME OVER", font=('Trattatello', 100), tag='countdown')
         self.canvas.create_text((400, 300), text=f"your score: {self.current_score}", font=('Trattatello', 50), tag='countdown')
 
-        self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
+        self.continue_button = RoundedButton(325, 240, self, text="Continue", font=('Quicksand Medium', 14, "bold"),
+                                                command=self.to_leaderboard)
+        # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
         
         self.parent.update()
 
