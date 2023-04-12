@@ -75,13 +75,13 @@ class MenuPage(tk.Frame):
 
         # putting the button in its place by
         instruction_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text="Instructions", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
-            command = lambda : controller.show_frame(Instructions))
+            command=(lambda : controller.show_frame(Instructions)))
   
         play_button = RoundedButton((button_pos[0]+225), button_pos[1], self.canvas, text ="Play", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
-            command = lambda : self.start_game())
+            command=self.start_game)
 
-        # leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
-        #     command = lambda : self.show_leader())
+        leaderboard_button = RoundedButton((button_pos[0]+450), button_pos[1], self.canvas, text ="Leaderboard", font=('Quicksand Medium', 14, "bold"), fg="#9c171a",
+            command=self.show_leader)
 
         self.parent.update()
 
