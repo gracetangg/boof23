@@ -67,7 +67,7 @@ class MenuPage(tk.Frame):
         button_pos = (190, 300)
 
         # putting the button in its place by
-        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 10)
+        instruction_button = tk.Button(self, text="INSTRUCTIONS", font=('Trattatello', 10),
             command = lambda : controller.show_frame(Instructions))
         instruction_button.place(x=button_pos[0], y=button_pos[1])
   
