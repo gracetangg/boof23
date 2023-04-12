@@ -59,6 +59,7 @@ class MenuPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
+        self.config(bg="#383434")
 
         title_label = tk.Label(self, text="Can You Paint the Roses RED?", font=('Trattatello', 50), fg="red")
         title_label.place(x=60, y=150)
@@ -97,6 +98,7 @@ class Instructions(tk.Frame):
         tk.Frame.__init__(self, parent)
         title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="red")
         title_label.place(x=200, y=5)
+        self.config(bg="#383434")
 
         button_pos = (350, 440)
 
@@ -111,6 +113,7 @@ class GamePage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
+        self.config(bg="#383434")
 
         self.clock_position = (33, 75)
         self.clock_size = 106 # 150
@@ -312,6 +315,7 @@ class Leaderboard(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.parent = parent
         self.controller = controller
+        self.config(bg="#383434")
 
         self.leaderboard = []
         with open('leaderboard.txt', 'r') as f:
