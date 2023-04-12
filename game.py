@@ -138,7 +138,7 @@ class GamePage(tk.Frame):
         self.animation = []
         self.load_gif()
     
-        self.button_pos = (300, 375)
+        self.button_pos = (300, 390)
 
         self.continue_button = RoundedButton(325, 240, self.canvas, text="Continue", font=('Quicksand Medium', 14, "bold"),
                                                 command=self.to_leaderboard)
