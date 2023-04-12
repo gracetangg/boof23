@@ -9,7 +9,7 @@ from PIL import Image, ImageTk, ImageDraw, ImageOps
 
 LARGEFONT = ("Verdana", 35)
 
-GAME_TIME = 10
+GAME_TIME = 1
 LEADERBOARD = [] 
 
 GIF_FRAMES = 52
@@ -131,7 +131,7 @@ class GamePage(tk.Frame):
         self.animation = []
         self.load_gif()
     
-        self.button_pos = (350, 240)
+        self.button_pos = (325, 240)
 
         self.continue_button = tk.Button(self, text="CONTINUE", font=('Trattatello', 20),
                                                 command=self.to_leaderboard)
@@ -216,25 +216,25 @@ class GamePage(tk.Frame):
         self.canvas.create_image(775, 200, anchor=tk.NE, image=soldier_image_flipped, tag="soldR")
         self.parent.update()
 
-        self.canvas.create_text(text_center, text="3", fill="White", font=('Trattatello', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="3", fill="red", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
 
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="2", fill="White", font=('Trattatello', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="2", fill="red", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
 
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="1", fill="White", font=('Trattatello', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="1", fill="red", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
         
         self.canvas.delete("countdown")
-        self.canvas.create_text(text_center, text="GO!", fill="White", font=('Trattatello', 200), tag='countdown')
+        self.canvas.create_text(text_center, text="GO!", fill="red", font=('Trattatello', 200), tag='countdown')
         self.canvas.pack(fill="both", expand=True)
         self.parent.update()
         time.sleep(1)
@@ -271,7 +271,7 @@ class GamePage(tk.Frame):
         self.canvas.delete("points")
         self.canvas.delete(self.img)
 
-        self.canvas.create_text((400, 240), text="GAME OVER", font=('Trattatello', 100), tag='countdown')
+        self.canvas.create_text((400, 200), text="GAME OVER", font=('Trattatello', 100), tag='countdown')
         self.canvas.create_text((400, 300), text=f"your score: {self.current_score}", font=('Trattatello', 50), tag='countdown')
 
         self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
@@ -358,8 +358,8 @@ class Leaderboard(tk.Frame):
             self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50))
             self.title_label.place(x=150, y=200)
 
-            self.back_button.place(x=150, y=300)
-            self.add_button.place(x=300, y=300)
+            self.back_button.place(x=50, y=300)
+            self.add_button.place(x=200, y=300)
             self.view_button.place(x=500, y=300)
         else: 
             self.title_label = ttk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50))
