@@ -355,15 +355,15 @@ class Leaderboard(tk.Frame):
         self.title_label.destroy()
 
         if score > min(self.leaderboard)[0]: 
-            self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fill="red")
-            self.title_label.place(x=100, y=200)
+            self.title_label = ttk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), color="red")
+            self.title_label.place(x=100, y=150)
 
             self.back_button.place(x=50, y=300)
             self.add_button.place(x=225, y=300)
             self.view_button.place(x=575, y=300)
         else: 
-            self.title_label = ttk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fill="red")
-            self.title_label.place(x=175, y=200)
+            self.title_label = ttk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), color="red")
+            self.title_label.place(x=175, y=150)
 
             self.back_button.place(x=200, y=300)
             self.view_button.place(x=400, y=300)
