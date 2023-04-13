@@ -11,6 +11,7 @@ from rounded import RoundedButton
 
 LARGEFONT = ("Verdana", 35)
 BUTTONFONT = ('Quicksand Medium', 14, "bold")
+SCOREFONT = ('Quicksand Medium', 14, "bold")
 
 GAME_TIME = 1
 LEADERBOARD = [] 
@@ -281,13 +282,11 @@ class GamePage(tk.Frame):
         self.canvas.delete("points")
         self.canvas.delete(self.img)
 
-        # self.canvas.itemconfig(self.img, image=self.finish_img)
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.finish_img, tag="finish_img")
         self.canvas.create_text((400, 75), text="GAME OVER", font=('Trattatello', 100), tag='countdown', fill="white")
         self.canvas.create_text((400, 350), text=f"Score: {self.current_score}", font=('Quicksand Medium', 30, "bold"), tag='countdown', fill="white")
         self.continue_button = RoundedButton(self.button_pos[0], self.button_pos[1], self.canvas, text="Continue", font=BUTTONFONT,
                                                 command=self.to_leaderboard)
-        # self.continue_button.place(x=self.button_pos[0], y=self.button_pos[1]+100)
         
         self.parent.update()
 
@@ -336,9 +335,13 @@ class Leaderboard(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
 
         self.leader_labels = []
-        self.score_header = tk.Label(self.canvas, text=f"Score:", font=('Trattatello', 20), fg="#9c171a")
-        self.player_header = tk.Label(self.canvas, text=f"Player:", font=('Trattatello', 20), fg="#9c171a")
+        self.score_header = tk.Label(self.canvas, text=f"Score:", font=('Quicksand Medium', 20, "bold"), fg="#9c171a")
+        self.player_header = tk.Label(self.canvas, text=f"Player:", font=('Quicksand Medium', 20, "bold"), fg="#9c171a")
         self.title_label = tk.Label(self.canvas, text="", font=('Trattatello', 50), fg="#9c171a")
+
+        self.good_img = ImageTk.PhotoImage(Image.open("good.png"))
+        self.bad_img = ImageTk.PhotoImage(Image.open("bad.png"))
+        self.background = self.canvas.create_image(0, 0, anchor=tk.NW, image=None, tag="background")
 
         self.keyboard_canvas = tk.Canvas(self, width=600, height=300)
         self.keyboard_canvas.place_forget()
@@ -359,9 +362,11 @@ class Leaderboard(tk.Frame):
         self.title_label.destroy()
 
         if score > min(self.leaderboard)[0]: 
-            button_pos = (75, 300)
-            self.title_label = tk.Label(self.canvas, text="YOU MADE IT in TOP 5!", font=('Trattatello', 50), fg="#9c171a")
-            self.title_label.place(x=70, y=150)
+            button_pos = (75, 350)
+            
+            self.background = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.good_img, tag="background")
+
+            self.title_label = self.canvas.create_text((400, 250), text="TOP 5!", font=('Trattatello', 100), fill="white", tag="title")
             
             self.back_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
@@ -371,9 +376,10 @@ class Leaderboard(tk.Frame):
                             command = lambda : self.view_leaderboard())
         
         else: 
-            self.title_label = tk.Label(self.canvas, text="Better Luck Next Time <3", font=('Trattatello', 50), fg="#9c171a")
-            self.title_label.place(x=175, y=150)
-
+            self.background = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bad_img, tag="background")
+            
+            self.title_label = self.canvas.create_text((400, 300), text="Who Painted My Roses Red?", font=('Trattatello', 50), fill="white", tag="title")
+            
             self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
             self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
@@ -419,10 +425,11 @@ class Leaderboard(tk.Frame):
         ttk.Button(self.keyboard_canvas, text='enter', width=4, command=(lambda:self.update_leaderboard())).grid(row=2, column=9, ipadx=3, ipady=7)
 
     def show_keyboard(self):
-        self.title_label.destroy()
+        self.canvas.delete("title")
         self.canvas.delete("BacktoMenu")
         self.canvas.delete("AddtoLeaderboard")
         self.canvas.delete("ViewLeaderboard")
+        self.canvas.delete("background")
 
         self.typing_label['text'] = "type your name"
         self.typing_label.place(x=self.typing_pos[0], y=self.typing_pos[1])
@@ -465,6 +472,7 @@ class Leaderboard(tk.Frame):
         self.canvas.delete("BacktoMenu")
         self.canvas.delete("AddtoLeaderboard")
         self.canvas.delete("ViewLeaderboard")
+        self.canvas.delete("background")
         self.hide_keyboard()
 
         self.back_button = RoundedButton(300, 400, self.canvas, text ="Back to Menu", font=BUTTONFONT,
@@ -479,8 +487,8 @@ class Leaderboard(tk.Frame):
 
         self.leader_labels = []
         for i, (score, leader) in enumerate(self.leaderboard): 
-            score_lbl = tk.Label(self.canvas, text=f"{score}", font=('Trattatello', 20), fg="#9c171a")
-            player_lbl = tk.Label(self.canvas, text=f"{leader}", font=('Trattatello', 20), fg="#9c171a")
+            score_lbl = tk.Label(self.canvas, text=f"{score}", font=SCOREFONT, fg="#9c171a")
+            player_lbl = tk.Label(self.canvas, text=f"{leader}", font=SCOREFONT, fg="#9c171a")
             self.leader_labels += [(score_lbl, player_lbl)]
 
             score_lbl.place(x=score_pos[0], y=score_pos[1] + 50 * (i + 1))
@@ -492,6 +500,7 @@ class Leaderboard(tk.Frame):
         self.canvas.delete("BacktoMenu")
         self.canvas.delete("AddtoLeaderboard")
         self.canvas.delete("ViewLeaderboard")
+        self.canvas.delete("background")
         self.hide_keyboard()
 
         # forget leaderboard stuff if its there:
