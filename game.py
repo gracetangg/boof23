@@ -11,7 +11,7 @@ from rounded import RoundedButton
 
 LARGEFONT = ("Verdana", 35)
 BUTTONFONT = ('Quicksand Medium', 14, "bold")
-SCOREFONT = ('Quicksand Medium', 14, "bold")
+SCOREFONT = ('Quicksand Medium', 18, "bold")
 
 GAME_TIME = 1
 LEADERBOARD = [] 
@@ -105,11 +105,32 @@ class Instructions(tk.Frame):
         self.canvas = tk.Canvas(self, width=800, height=480)
         self.canvas.pack(fill="both", expand=True)
 
-        title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="#9c171a")
-        title_label.place(x=200, y=5)
+        self.background = ImageTk.PhotoImage(Image.open("instruction_background.png"))
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.background)
 
-        button_pos = (350, 440)
-        back_button = RoundedButton(button_pos[0], button_pos[1], self.cavnas, text ="Back", font=BUTTONFONT,
+        self.canvas.create_text((400, 100), anchor=tk.CENTER, text="How to Paint the Roses?", font=('Trattatello', 50), fill="white")
+
+        text_center1 = (50, 150)
+        text_center2 = (50, 200)
+        text_center3 = (50, 250)
+        self.canvas.create_text(text_center1, text="1. Pick up paint brush, make sure circle faces away from you", 
+                                             fill="white", 
+                                             font=SCOREFONT, 
+                                             tag='instr',
+                                             anchor=tk.NW)
+        self.canvas.create_text(text_center2, text="2. When the roses turn white, tap them with your paint brush to turn them red", 
+                                             fill="white", 
+                                             font=SCOREFONT, 
+                                             tag='instr',
+                                             anchor=tk.NW)
+        self.canvas.create_text(text_center3, text="3. BE FAST! Roses don't wait for forever, paint them red before they turn yellow", 
+                                             fill="white", 
+                                             font=SCOREFONT, 
+                                             tag='instr',
+                                             anchor=tk.NW)
+
+        button_pos = (300, 350)
+        back_button = RoundedButton(button_pos[0], button_pos[1], self.canvas, text ="Back", font=BUTTONFONT,
                             command = lambda : controller.show_frame(MenuPage))
 
 # third window frame GamePage
