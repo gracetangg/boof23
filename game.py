@@ -102,15 +102,15 @@ class Instructions(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        self.canvas = tk.Canvas(self, width=800, height=480)
+        self.canvas.pack(fill="both", expand=True)
+
         title_label = tk.Label(self, text="How to Paint the Roses?", font=('Trattatello', 50), fg="#9c171a")
         title_label.place(x=200, y=5)
 
         button_pos = (350, 440)
-
-        back_button = tk.Button(self, text ="Back", font=('Trattatello', 20),
+        back_button = RoundedButton(button_pos[0], button_pos[1], self.cavnas, text ="Back", font=BUTTONFONT,
                             command = lambda : controller.show_frame(MenuPage))
-        back_button.place(x=button_pos[0], y=button_pos[1])
-
 
 # third window frame GamePage
 class GamePage(tk.Frame):
