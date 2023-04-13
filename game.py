@@ -455,11 +455,11 @@ class Leaderboard(tk.Frame):
 
         self.hide_keyboard()
         self.canvas.delete("title")
-        self.title_label = self.canvas.create_text((175, 200), text="Score Saved!", font=('Trattatello', 100), fill="white", tag="title")
+        self.title_label = self.canvas.create_text((175, 200), anchor=tk.NW, text="Score Saved!", font=('Trattatello', 100), fill="white", tag="title")
 
-        self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
+        self.back_button = RoundedButton(150, 350, self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
-        self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
+        self.view_button = RoundedButton(450, 350, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
                                              command = lambda : self.view_leaderboard())
 
     def add_leaderboard(self):
