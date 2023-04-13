@@ -13,7 +13,7 @@ LARGEFONT = ("Verdana", 35)
 BUTTONFONT = ('Quicksand Medium', 14, "bold")
 SCOREFONT = ('Quicksand Medium', 14, "bold")
 
-GAME_TIME = 1
+GAME_TIME = 30
 LEADERBOARD = [] 
 
 GIF_FRAMES = 52
@@ -213,7 +213,7 @@ class GamePage(tk.Frame):
         Countdown animation
         """
         # send first 'y' to the arduino to prep for start: 
-        arduino.write(bytes('y', 'utf-8'))
+        arduino.write(bytes('r', 'utf-8'))
 
         text_center = (400, 240)
         
@@ -253,10 +253,11 @@ class GamePage(tk.Frame):
         self.canvas.delete("soldL")
         self.canvas.delete("soldR")
         self.parent.update()
-        self.start_game()
+        # self.start_game()
 
         # write 'y' second time to actually start game
         arduino.write(bytes('y', 'utf-8'))
+        self.start_game()
 
     def reset(self):
         self.canvas.delete("all")
@@ -301,20 +302,20 @@ class GamePage(tk.Frame):
 
             # serial read to find the score/game over
             data = arduino.readline().decode('utf-8').rstrip()
-            if data == "":
-                continue
             # if there is a score update:
-            if SCORE_STRING in data: 
+            if data and SCORE_STRING in data: 
                 new_score = int(data[len(SCORE_STRING):])
-                self.current_score += new_score
+                self.current_score = new_score
                 self.update_score()
 
-            if data == 'game over!!!':
+            if data and data == 'game over!!!':
                 data = arduino.readline().decode('utf-8').rstrip()
                 score = int(data[20:])
                 assert(score == self.current_score)
-            self.current_score += 3
-            self.update_score()
+                self.game_over()
+                break
+            # self.current_score += 3
+            # self.update_score()
             self.update_clock()
         self.game_over()
 
