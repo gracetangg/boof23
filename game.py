@@ -20,7 +20,7 @@ GIF_FRAMES = 52
 GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
-# arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
+arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
     # __init__ function for class RosesGame
@@ -213,7 +213,7 @@ class GamePage(tk.Frame):
         Countdown animation
         """
         # send first 'y' to the arduino to prep for start: 
-        # arduino.write(bytes('y', 'utf-8'))
+        arduino.write(bytes('y', 'utf-8'))
 
         text_center = (400, 240)
         
@@ -256,7 +256,7 @@ class GamePage(tk.Frame):
         self.start_game()
 
         # write 'y' second time to actually start game
-        # arduino.write(bytes('y', 'utf-8'))
+        arduino.write(bytes('y', 'utf-8'))
 
     def reset(self):
         self.canvas.delete("all")
@@ -300,19 +300,19 @@ class GamePage(tk.Frame):
             self.play_gif()
 
             # serial read to find the score/game over
-            # data = arduino.readline().decode('utf-8').rstrip()
-            # if data == "":
-            #     continue
-            # # if there is a score update:
-            # if SCORE_STRING in data: 
-            #     new_score = int(data[len(SCORE_STRING):])
-            #     self.current_score += new_score
-            #     self.update_score()
+            data = arduino.readline().decode('utf-8').rstrip()
+            if data == "":
+                continue
+            # if there is a score update:
+            if SCORE_STRING in data: 
+                new_score = int(data[len(SCORE_STRING):])
+                self.current_score += new_score
+                self.update_score()
 
-            # if data == 'game over!!!':
-            #     data = arduino.readline().decode('utf-8').rstrip()
-            #     score = int(data[20:])
-            #     assert(score == self.current_score)
+            if data == 'game over!!!':
+                data = arduino.readline().decode('utf-8').rstrip()
+                score = int(data[20:])
+                assert(score == self.current_score)
             self.current_score += 3
             self.update_score()
             self.update_clock()
