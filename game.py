@@ -20,7 +20,7 @@ GIF_FRAMES = 52
 GIF_DELAY = 150 / 1000
 
 PORTNAME = '/dev/cu.usbmodem144201'
-arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
+# arduino = serial.Serial(port=PORTNAME, baudrate=9600, timeout=.1)
   
 class RosesGame(tk.Tk):
     # __init__ function for class RosesGame
@@ -213,7 +213,7 @@ class GamePage(tk.Frame):
         Countdown animation
         """
         # send first 'y' to the arduino to prep for start: 
-        arduino.write(bytes('y', 'utf-8'))
+        # arduino.write(bytes('y', 'utf-8'))
 
         text_center = (400, 240)
         
@@ -256,7 +256,7 @@ class GamePage(tk.Frame):
         self.start_game()
 
         # write 'y' second time to actually start game
-        arduino.write(bytes('y', 'utf-8'))
+        # arduino.write(bytes('y', 'utf-8'))
 
     def reset(self):
         self.canvas.delete("all")
@@ -299,21 +299,21 @@ class GamePage(tk.Frame):
         while self.elapsed_time <= GAME_TIME:
             self.play_gif()
 
-            # serial read to find the score/game over
-            data = arduino.readline().decode('utf-8').rstrip()
-            if data == "":
-                continue
-            # if there is a score update:
-            if SCORE_STRING in data: 
-                new_score = int(data[len(SCORE_STRING):])
-                self.current_score += new_score
-                self.update_score()
+            # # serial read to find the score/game over
+            # data = arduino.readline().decode('utf-8').rstrip()
+            # if data == "":
+            #     continue
+            # # if there is a score update:
+            # if SCORE_STRING in data: 
+            #     new_score = int(data[len(SCORE_STRING):])
+            #     self.current_score += new_score
+            #     self.update_score()
 
-            if data == 'game over!!!':
-                data = arduino.readline().decode('utf-8').rstrip()
-                score = int(data[20:])
-                assert(score == self.current_score)
-            self.current_score += 3
+            # if data == 'game over!!!':
+            #     data = arduino.readline().decode('utf-8').rstrip()
+            #     score = int(data[20:])
+            #     assert(score == self.current_score)
+            self.current_score += 0
             self.update_score()
             self.update_clock()
         self.game_over()
@@ -337,7 +337,7 @@ class Leaderboard(tk.Frame):
         self.leader_labels = []
         self.score_header = tk.Label(self.canvas, text=f"Score:", font=('Quicksand Medium', 20, "bold"), fg="#9c171a")
         self.player_header = tk.Label(self.canvas, text=f"Player:", font=('Quicksand Medium', 20, "bold"), fg="#9c171a")
-        self.title_label = tk.Label(self.canvas, text="", font=('Trattatello', 50), fg="#9c171a")
+        # self.title_label = tk.Label(self.canvas, text="", font=('Trattatello', 50), fg="#9c171a")
 
         self.good_img = ImageTk.PhotoImage(Image.open("good.png"))
         self.bad_img = ImageTk.PhotoImage(Image.open("bad.png"))
@@ -359,7 +359,7 @@ class Leaderboard(tk.Frame):
     def show_score(self, score):
         self.current_name = ""
         self.current_score = score
-        self.title_label.destroy()
+        self.canvas.delete("title")
 
         if score > min(self.leaderboard)[0]: 
             button_pos = (75, 350)
@@ -380,9 +380,9 @@ class Leaderboard(tk.Frame):
             
             self.title_label = self.canvas.create_text((400, 300), text="Who Painted My Roses Red?", font=('Trattatello', 50), fill="white", tag="title")
             
-            self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
+            self.back_button = RoundedButton(150, 350, self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
-            self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
+            self.view_button = RoundedButton(450, 350, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
                                              command = lambda : self.view_leaderboard())
 
     def press(self, key):
@@ -454,21 +454,19 @@ class Leaderboard(tk.Frame):
         self.save_leaderboard()
 
         self.hide_keyboard()
-        self.title_label.destroy()
-        self.title_label = tk.Label(self.canvas, text="your score has been saved!", font=('Trattatello', 50), fg="#9c171a")
+        self.canvas.delete("title")
+        self.title_label = self.canvas.create_text((175, 200), text="Score Saved!", font=('Trattatello', 100), fill="white", tag="title")
 
         self.back_button = RoundedButton(150, 300, self.canvas, text ="Back to Menu", font=BUTTONFONT,
                                              command = lambda : self.leave_leaderboard())
         self.view_button = RoundedButton(450, 300, self.canvas, text ="View Leaderboard", font=BUTTONFONT,
                                              command = lambda : self.view_leaderboard())
 
-        self.title_label.place(x=175, y=200)
-
     def add_leaderboard(self):
         self.show_keyboard()
 
     def view_leaderboard(self):
-        self.title_label.destroy()
+        self.canvas.delete("title")
         self.canvas.delete("BacktoMenu")
         self.canvas.delete("AddtoLeaderboard")
         self.canvas.delete("ViewLeaderboard")
@@ -496,7 +494,7 @@ class Leaderboard(tk.Frame):
         
     def leave_leaderboard(self):
         self.controller.show_frame(MenuPage)
-        self.title_label.destroy()
+        self.canvas.delete("title")
         self.canvas.delete("BacktoMenu")
         self.canvas.delete("AddtoLeaderboard")
         self.canvas.delete("ViewLeaderboard")
@@ -510,8 +508,7 @@ class Leaderboard(tk.Frame):
             score.destroy()
             player.destroy()
 
-        self.title_label = tk.Label(self.canvas, text="Can YOU Make it to TOP 5?", font=('Trattatello', 50), fg="#9c171a")
-        self.title_label.place(x=160, y=200)
+        self.title_label = self.canvas.create_text((160, 200), text="Can YOU Make it to TOP 5?", font=('Trattatello', 50), fill="white", tag="title")
 
 
 if __name__ == "__main__":
