@@ -301,19 +301,19 @@ class GamePage(tk.Frame):
 
             # # serial read to find the score/game over
             # data = arduino.readline().decode('utf-8').rstrip()
-            # if data == "":
-            #     continue
+
             # # if there is a score update:
-            # if SCORE_STRING in data: 
+            # if data and SCORE_STRING in data: 
             #     new_score = int(data[len(SCORE_STRING):])
-            #     self.current_score += new_score
+            #     self.current_score = new_score
             #     self.update_score()
 
-            # if data == 'game over!!!':
+            # if data and data == 'game over!!!':
             #     data = arduino.readline().decode('utf-8').rstrip()
             #     score = int(data[20:])
             #     assert(score == self.current_score)
-            self.current_score += 0
+            #     break
+            self.current_score += 5
             self.update_score()
             self.update_clock()
         self.game_over()
